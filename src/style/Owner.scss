@@ -1,0 +1,135 @@
+// Owner.scss
+
+.container {
+  text-align: center;
+  padding: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  .logout {
+    margin-top: 20px;
+    padding: 15px 30px; // Increased padding for a more prominent button
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #e53935;
+    }
+  }
+}
+
+h1 {
+  color: #333; /* Dark gray for heading */
+}
+
+.welcome-container {
+  margin-top: 20px;
+}
+
+.login-link,
+.register-link {
+  cursor: pointer;
+  color: #007bff; /* Blue color for links */
+}
+
+.login-link:hover,
+.register-link:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+.form-container {
+  background-image: url("../image/e.jpg"); /* Specify the URL of the image */
+  background-size: cover; /* Cover the entire container */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+  max-width: 400px; /* Set maximum width */
+  margin-left: auto; /* Align center */
+  margin-right: auto; /* Align center */
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 5px;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #007bff; /* Blue border on focus */
+}
+
+.btn {
+  background-color: #007bff; /* Blue color for button */
+  color: #fff; /* White text color */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+// Owner.scss (add this to your existing SCSS file)
+// Owner.scss (update this in your existing SCSS file)
+
+.form-container {
+  background-color: #f8f9fa; /* Light gray background for forms */
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+  max-width: 400px; /* Set maximum width */
+  margin-left: auto; /* Align center */
+  margin-right: auto; /* Align center */
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+  color: #333; /* Dark gray for heading */
+}
+
+.form-container input {
+  width: calc(100% - 20px); /* Adjust width */
+  padding: 8px;
+  margin-bottom: 15px;
+  border: none; /* Remove border */
+  border-radius: 5px;
+  font-family: 'Times New Roman', Times, serif; /* Apply font-family */
+}
+
+.form-container input:focus {
+  outline: none;
+  border-color: #007bff; /* Blue border on focus */
+}
+
+.form-container button {
+  width: calc(100% - 20px); /* Adjust button width */
+  background-color: #007bff; /* Blue color for button */
+  color: #fff; /* White text color */
+  border: 1px solid #007bff; /* Add border to button */
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+

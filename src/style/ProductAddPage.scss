@@ -1,0 +1,132 @@
+
+.productaddX{
+  .product-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-bottom: 20px;
+  
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-right: 10px;
+      display: inline-block;
+      flex-shrink: 0;
+      margin-left: 40px;
+    }
+  
+    input[type="text"] {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 16px;
+      width:80%;
+      box-sizing: border-box;
+      margin-right: 10px;
+      flex-shrink: 1;
+    }
+  
+    button {
+      background-color: #ff0000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      flex-shrink: 0;
+  
+      &:hover {
+        background-color: #13d11f;
+      }
+    }
+  
+   
+  }
+  .error-message {
+    display: block; /* Change display to block to ensure it appears in a new line */
+    text-align: center; /* Center the error message */
+    margin-top: 0px; /* Add some top margin */
+    font-size: 24px;
+    color: #f44336;
+  }
+
+
+.product-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    height: 300px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    .product-image {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    .product-details {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+
+      .product-name {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .product-count {
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+
+      .product-quantity {
+        font-size: 14px;
+        color: #666;
+      }
+    }
+  }
+}
+
+.product-count {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.new-product-modal-button {
+  display: inline-block;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: relative; /* Add this line to position the button relative to itsnormal position */
+  left: 50%; /* Move the button 50% of its parent container's width to the left */
+  transform: translateX(-50%); /* Move the button back 50% of its own width to the right, effectively centering it */
+  margin-top: 20px; /* Add some margin to the top to create some space */
+
+  &:hover {
+    background-color: #e53935;
+  }
+}
+
+
+}

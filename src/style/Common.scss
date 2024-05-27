@@ -1,0 +1,28 @@
+.product-button,
+.home-button {
+  display: block;
+  margin: 10px 0;
+  background-color: #573afa;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 16px;
+
+
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s; // Add transform for a slight scaling effect
+
+  &:hover {
+    background-color: #e53935;
+    color: #fff;
+    transform: scale(1.05); // Slightly enlarge the button on hover
+    text-decoration: none;
+
+  }
+
+  &:active {
+    background-color: #d32f2f; // Darken the color when the button is active
+  }
+}

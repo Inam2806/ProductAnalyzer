@@ -1,0 +1,134 @@
+// Variables
+$primary-color: #29352a;
+$error-color: red;
+$border-radius: 4px;
+$max-width: 400px;
+$input-padding: 10px;
+$input-margin-bottom: 8px;
+$input-border-radius: $border-radius;
+
+// Mixins
+@mixin border-radius($radius) {
+  border-radius: $radius;
+}
+
+@mixin button-styles {
+  background-color: $primary-color;
+  color: white;
+  padding: $input-padding $input-padding * 2;
+  border: none;
+  border-radius: $input-border-radius;
+  cursor: pointer;
+}
+
+@mixin darken-color($color, $amount) {
+  background-color: darken($color, $amount);
+}
+
+@mixin input-styles {
+  padding: $input-padding;
+  margin-bottom: $input-margin-bottom;
+  border: 1px solid #ccc;
+  border-radius: $input-border-radius;
+  box-sizing: border-box;
+}
+
+// Container
+.container_login_register {
+  text-align: center;
+  margin-bottom: 80px;
+  margin-top: 100px;
+
+  h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+
+  // Form Container
+  .form-container {
+    background: {
+      image: url("../image/e.jpg");
+      size: cover;
+      position: center;
+      repeat: no-repeat;
+    }
+    border: 1px solid #ccc;
+    @include border-radius($border-radius);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: $max-width;
+
+    h2 {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    // Login/Register Button
+    .login-register {
+      @include button-styles;
+      width: 100%;
+      margin-bottom: 20px;
+
+      &:hover {
+        @include darken-color($primary-color, 10%);
+      }
+    }
+
+    // Error Message
+    .error-message {
+      color: $error-color;
+      margin-bottom: 10px;
+    }
+  }
+
+  // Inputs
+  input[type="text"], input[type="password"], input[type="email"] {
+    width: 100%;
+    @include input-styles;
+  }
+
+  // Additional styles for the Login component
+  .login-input {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+  }
+
+  .login-register-link {
+    color: rgb(0, 94, 255);
+    text-decoration: underline;
+    font-size: 1.1rem;
+    margin-top: 15px;
+    display: inline-block;
+  }
+}
+.password-container {
+  position: relative;
+}
+
+.password-container {
+  position: relative;
+}
+
+.password-container button[type="button"] {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 18px;
+  width: 28px; // Add this line to set the width of the button
+}
+.password-container button[type="button"].active {
+  color: $primary-color;
+}
+
+.password-container button[type="button"]:hover {
+  color: darken($primary-color, 10%);
+}
+
+

@@ -1,0 +1,130 @@
+/* Variables */
+:root {
+  --primary-color: #848484;
+  --text-color: black;
+  --mobile-text-color: white;
+  --scroll-duration: 0.5s;
+}
+
+/* Global Styles */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  scroll-behavior: smooth; /* Add smooth scrolling effect */
+}
+
+/* Media Query for Mobile and Tablet Devices */
+@media only screen and (max-width: 1100px) {
+  body {
+    color: var(--mobile-text-color);
+  }
+}
+
+/* Landing Page Styles */
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 150px;
+  margin-bottom: 80px;
+}
+
+.landing-page h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.landing-page button {
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+  margin: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.landing-page button:hover {
+  background-color: #ddd;
+}
+
+.landing-page button:active {
+  background-color: #ccc;
+}
+
+/* Button Variants */
+.owner-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.owner-button:hover {
+  background-color: #3e8e41;
+}
+
+.owner-button:active {
+  background-color: #33691e;
+}
+
+.retailer-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.retailer-button:hover {
+  background-color: #ef5350;
+}
+
+.retailer-button:active {
+  background-color: #e53935;
+}
+
+.consumer-button {
+  background-color: #2196f3;
+  color: white;
+}
+
+.consumer-button:hover {
+  background-color: #1e88e5;
+}
+
+.consumer-button:active {
+  background-color: #1976d2;
+}
+
+/* Button Container Styles */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+/* Additional Content Styles */
+.additional-content {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.additional-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.additional-content p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.additional-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.additional-content li {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}

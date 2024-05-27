@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar.navbar-expand-lg.navbar-light>img {
+  width: 150px;
+  padding: 0 8px;
+}
+
+.background {
+  background-color: white;
+}
+
+.navbar {
+  text-align: center;
+  background-image: linear-gradient(to right, #000000, #000000);
+  height: 100px;
+  font-family: 'Times New Roman', Times, serif;
+  z-index: 99;
+  max-width: 120%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
+}
+
+.navbar-light .navbar-nav.ml-auto {
+  display: inline-flex;
+  list-style: none;
+}
+
+.navbar.navbar-expand-lg.navbar-light .item {
+  width: 150px;
+  margin: 15px;
+  padding: 15px;
+  text-align: center;
+}
+
+.navbar.navbar-expand-lg.navbar-light .nav-link {
+  text-decoration: none;
+  color: rgb(241, 241, 241);
+  transition: color 0.3s ease;
+}
+
+.navbar.navbar-expand-lg.navbar-light .navbar-toggler-icon {
+  background-color: rgb(113, 113, 113);
+  padding: 10px;
+  border-color: rgb(23, 23, 23);
+  border-radius: 5px;
+}
+
+.active,
+.navbar-light .navbar-nav.ml-auto .item:hover {
+  background: rgb(23, 23, 23);
+  border-radius: 3px;
+}
+
+.navbar-light .fa {
+  margin-right: 8px;
+}
+
+.navbar .nav-link {
+  transition: color 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+  color: #fff;
+}
+
+.navbar .nav-item {
+  transition: transform 0.3s ease;
+}
+
+.navbar .nav-item:hover {
+  transform: translateY(-5px);
+}
+
+.navbar .nav-link i {
+  margin-right: 5px;
+}
+
+.navbar .nav-link.fa {
+  font-size: 1.5em;
+}
+
+@media only screen and (max-width: 767px) {
+  body {
+    background-color: rgb(61, 61, 61);
+  }
+
+  .navbar {
+    max-width: 100%;
+  }
+
+  .navbar-collapse {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+  }
+
+  .navbar-nav {
+    width: 100%;
+  }
+
+  .item {
+    width: 100%;
+    margin: 10px 0;
+  }
+}

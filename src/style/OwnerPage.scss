@@ -1,0 +1,83 @@
+h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #333;
+  margin: 20px 0;
+  font-family: 'Times New Roman', Times, serif;
+  text-align: center;
+}
+
+.containerX {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  padding: 40px; // Increased padding for more space around content
+  width: 100%; // Set width to 80% to make it larger
+  max-width: 1400px; // Set a max-width for large screens
+  margin: 0 auto; // Center the container on the page
+
+  h1, h2 {
+    color: #333;
+  }
+
+  .centered-nav {
+    ul {
+      display: flex;
+      justify-content: center;
+      list-style-type: none;
+      padding: 0;
+
+      li {
+        margin: 0 10px;
+      }
+    }
+  }
+
+  .welcome-container {
+    margin-top: 20px;
+    padding: 30px; // Increased padding for more space inside the container
+    background-color: #fff;
+    border-radius: 10px; // Increased border-radius for a smoother look
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); // Increased shadow for better depth
+
+    h2 {
+      margin-bottom: 20px; // Increased margin for better spacing
+    }
+
+    p {
+      color: #666;
+    }
+  }
+
+  .logout {
+    margin-top: 20px;
+    padding: 15px 30px; // Increased padding for a more prominent button
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #e53935;
+    }
+  }
+}
+
+.centered-nav {
+  ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+
+    li {
+      margin: 0 10px;
+
+
+    }
+  }
+}

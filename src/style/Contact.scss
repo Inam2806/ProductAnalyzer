@@ -1,0 +1,227 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
+
+/* Apply global styles */
+
+
+/* Styles for the contact section */
+.contact {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+background: rgb(35, 34, 34);
+background-size: cover;
+border-top: #ccc solid 2px;
+border-bottom: #ccc solid 2px;
+  /* Light gray background */
+}
+
+/* Styles for content */
+.contact .content {
+  max-width: 800px;
+  text-align: center;
+
+  /* Dark text color */
+}
+
+/* Styles for container_contact */
+.container_contact {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 10%;
+}
+
+/* Styles for contact info */
+.container_contact .contactinfro {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+
+}
+
+/* Styles for boxes containing contact info */
+.container_contact .contactinfro .box {
+  position: relative;
+  padding: 20px 0;
+  display: flex;
+
+}
+
+/* Styles for icon in contact info */
+.container_contact .contactinfro .box .icon {
+  min-width: 60px;
+  height: 60px;
+  background: #fff;
+  /* White background for icons */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 22px;
+  color: #000000;
+  /* Dark text color */
+}
+
+/* Styles for text in contact info */
+.container_contact .contactinfro .box .text {
+  display: flex;
+  margin-left: 20px;
+  font-size: 16px;
+  color: #ffffff;
+  flex-direction: column;
+  font-weight: 300;
+}
+
+/* Styles for heading in text */
+.container_contact .contactinfro .box .text h3 {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+/* Styles for contact form */
+.contactform {
+  width: 50%;
+  padding: 40px;
+  background: #fff;
+  /* White background for form */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* Add a subtle box shadow */
+}
+
+/* Styles for heading in contact form */
+.contactform h2 {
+  font-size: 30px;
+  color: #ffffff;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* Styles for input boxes in contact form */
+.contactform .inputBox {
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Styles for input fields in contact form */
+.contactform .inputBox input,
+.contactform .inputBox textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  /* Light border color */
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+/* Styles for labels in input boxes */
+.contactform .inputBox label {
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  padding: 5px;
+  font-size: 14px;
+  background: #fff;
+  /* White background for labels */
+  color: #ffffff;
+  transition: 0.3s;
+}
+
+/* Styles for focused and valid input labels */
+.contactform .inputBox input:focus~label,
+.contactform .inputBox input:valid~label,
+.contactform .inputBox textarea:focus~label,
+.contactform .inputBox textarea:valid~label {
+  color: #00bcd4;
+  font-size: 12px;
+  transform: translateY(-20px);
+}
+
+/* Styles for submit button */
+.contactform .inputBox input[type="submit"] {
+  width: 100%;
+  background: #00bcd4;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.contactform .inputBox input[type="submit"]:hover {
+  background: #007c91;
+  /* Darker color on hover */
+}
+
+/* Media query for smaller screens */
+.contact {
+  // Common styles for larger screens
+
+  @media (max-width: 768px) {
+    // Styles specific to screens smaller than or equal to 768px
+
+    .container_contact {
+      flex-direction: column;
+      align-items: center;
+
+      .contactinfro,
+      .contactform {
+        width: 100%;
+      }
+
+      .contactinfro {
+        margin-bottom: 20px;
+
+        .box {
+          margin-bottom: 15px;
+        }
+
+        .social-icons {
+          margin-top: 20px;
+        }
+      }
+
+      .contactform {
+        .inputBox {
+          width: 100%;
+
+          label,
+          input,
+          textarea {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Styles for social icons */
+.social-icons {
+  margin-top: 30px;
+}
+
+.social-icons a {
+  text-decoration: none;
+  font-size: 30px;
+  margin-right: 15px;
+  color: #ffffff;
+  display: inline-block;
+  transition: color 0.5s, transform 0.5s;
+}
+
+.social-icons a:hover {
+  color: #ff004f;
+  transform: translateY(-5px);
+}
