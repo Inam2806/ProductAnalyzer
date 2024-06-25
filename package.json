@@ -17,11 +17,10 @@
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.5.0",
+    "mongodb": "^6.7.0",
     "mongoose": "^8.2.2",
     "multer": "^1.4.5-lts.1",
     "multer-cloudinary": "^1.1.0",
-    "nodemon": "^3.1.0",
     "serverless-http": "^3.2.0",
     "zod": "^3.22.4"
   },
@@ -38,5 +37,8 @@
     ]
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  }
 }

@@ -11,8 +11,6 @@
         // Apply express.json() middleware to parse JSON request bodies
         app.use(express.json());
         app.use(cors());
-        const retailerRouter = require('./Retailer');
-        app.use(retailerRouter);
         mongoose.connect(process.env.MONGODB_URI)
             .then(() => console.log('Connected to MongoDB'))
             .catch(err => console.error('Failed to connect to MongoDB:', err));
@@ -114,7 +112,7 @@ app.get('/api/auth/company/all', async (req, res) => {
 
             // Generate JWT token
             const payload = { userId: registration._id, username: registration.username }; // Customize payload as needed
-            const token = jwt.sign(payload, process.env.OWNER_JWT_SECRET, { expiresIn: '30d' });
+            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' });
 
             return res.status(200).json({ message: "Login successful", token });
         } catch (error) {
@@ -122,13 +120,13 @@ app.get('/api/auth/company/all', async (req, res) => {
             return res.status(500).json({ message: "Login failed", error: error.message });
         }
         });
-        function authenticateOwnerToken(req, res, next) {
+        function authenticateToken(req, res, next) {
             const authHeader = req.headers['authorization'];
             const token = authHeader && authHeader.split(' ')[1];
             if (token == null) {
                 return res.sendStatus(401);
             }
-            jwt.verify(token, process.env.OWNER_JWT_SECRET, (err, user) => {
+            jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
                 if (err) {
                     return res.sendStatus(403);
                 }
@@ -137,7 +135,7 @@ app.get('/api/auth/company/all', async (req, res) => {
             });
         }
     // Endpoint to handle user profile retrieval
-    app.get('/api/auth/profile', authenticateOwnerToken, async (req, res) => {
+    app.get('/api/auth/profile', authenticateToken, async (req, res) => {
         try {
             const { userId } = req.user;
 
@@ -177,8 +175,10 @@ const productSchema = new mongoose.Schema({
     productName: String,
     size: String,
     price: Number,
-    status: { type: Number, default: 0 }
+    status: { type: Number, default: 0 },
+    phoneNumber: { type: String, default: '' }
 });
+
 
 
 
@@ -243,8 +243,38 @@ app.post('/api/products/addX', async (req, res) => {
         // Fetch data from companyNameCount collection
         const countData = await CountModel.find({});
 
-        // Extract relevant information
+        // Initialize variables to track totals and maximums
+        let totalProfit = 0;
+        let highestSaleProduct = null;
+        let highestSaleProductValue = -Infinity;
+        let highestProfitProduct = null;
+        let highestProductProfitValue = -Infinity;
+
+        // Extract relevant information and compute necessary values
         const productData = countData.map(item => {
+            const saleCount = item.status_1;
+            const totalProductProfit = item.profit * saleCount; // Adjusted total profit calculation based on sale count
+
+            totalProfit += totalProductProfit;
+
+            if (saleCount > highestSaleProductValue) {
+                highestSaleProductValue = saleCount;
+                highestSaleProduct = {
+                    productName: item.productName,
+                    size: item.size,
+                    profit: totalProductProfit
+                };
+            }
+
+            if (totalProductProfit > highestProductProfitValue) {
+                highestProductProfitValue = totalProductProfit;
+                highestProfitProduct = {
+                    productName: item.productName,
+                    size: item.size,
+                    productProfit: totalProductProfit
+                };
+            }
+
             return {
                 productName: item.productName,
                 size: item.size,
@@ -255,17 +285,24 @@ app.post('/api/products/addX', async (req, res) => {
                 status_1: item.status_1,
                 status_2: item.status_2,
                 status_3: item.status_3,
-                Productprofit:item.Productprofit,
-               
+                Productprofit: totalProductProfit
             };
         });
 
-        res.status(200).json({ success: true, data: productData });
+        res.status(200).json({
+            success: true,
+            data: productData,
+            totalProfit: totalProfit,
+            highestSaleProduct: highestSaleProduct,
+            highestProfitProduct: highestProfitProduct
+        });
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).json({ success: false, message: 'Failed to fetch data.' });
     }
 });
+
+
 
 app.post('/api/products/add', async (req, res) => {
     const { companyName, productCode } = req.body;
@@ -324,20 +361,6 @@ app.post('/api/products/add', async (req, res) => {
 
 
 
-function authenticateRetailerToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if (token == null) {
-        return res.sendStatus(401);
-    }
-    jwt.verify(token, process.env.RETAILER_JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.sendStatus(403);
-        }
-        req.user = user;
-        next();
-    });
-}
 
 
 
@@ -348,6 +371,8 @@ function authenticateRetailerToken(req, res, next) {
 
 
 
+
+  
 
 
 
@@ -358,6 +383,16 @@ const RetailerRegistration = mongoose.model('RetailerRegistration', new mongoose
     email: String,
     password: String, // Note: You can remove this field if you're not storing passwords
     retailerCode: String,
+    ProfileImageURL:{ type: String, default: '' },
+    retailer_name: { type: String, default: '' },
+    retailer_address: { type: String, default: '' },
+    retailer_city: { type: String, default: '' },
+    retailer_state: { type: String, default: '' },
+    retailer_zip: { type: String, default: '' },
+    retailer_phone: { type: String, default: '' },
+    retailer_fax: { type: String, default: '' },
+    retailer_website: { type: String, default: '' },
+    retailer_pincode: { type: String, default: '' },
     registrationDate: { type: Date, default: Date.now }
 }));
 const Retailer = mongoose.model('Retailer', new mongoose.Schema({
@@ -452,7 +487,7 @@ app.post('/api/auth/RetailerRegister', async (req, res) => {
 
         // Generate JWT token
         const payload = { userId: registration._id, username: registration.username }; // Customize payload as needed
-        const token = jwt.sign(payload, process.env.RETAILER_JWT_SECRET, { expiresIn: '30d' });
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' });
 
         return res.status(200).json({ message: "Login successful", token });
     } catch (error) {
@@ -460,43 +495,183 @@ app.post('/api/auth/RetailerRegister', async (req, res) => {
         return res.status(500).json({ message: "Login failed", error: error.message });
     }
     });
-     // Endpoint to handle user profile retrieval
-     app.get('/api/auth/Retailerprofile', authenticateRetailerToken, async (req, res) => {
+
+    app.get('/api/auth/Retailerprofile', authenticateToken, async (req, res) => {
         try {
             const { userId } = req.user;
-
-            // Find user by userId
-            const registration = await RetailerRegistration.findById(userId).lean(); // Use lean() to optimize query performance
+    
+            const registration = await RetailerRegistration.findById(userId).lean();
             if (!registration) {
                 return res.status(400).json({ message: "User not found" });
             }
-
-            // Find retailer by retailer code
-            const retailer = await Retailer.findOne({ retailer_code: registration.retailerCode }).lean(); // Use lean() to optimize query performance
+    
+            const retailer = await Retailer.findOne({ retailer_code: registration.retailerCode }).lean();
             if (!retailer) {
-                return res.status(400).json({ message: "retailer not found" });
+                return res.status(400).json({ message: "Retailer not found" });
             }
-
-            // Return user profile with retailer name
+    
             const profile = {
                 userId: registration._id,
                 username: registration.username,
                 email: registration.email,
                 retailerCode: registration.retailerCode,
-                retailerName: retailer.retailer_name
+                ProfileImageURL: registration.profile_image_url,
+                retailer_name: retailer.retailer_name,
+                retailer_address: registration.address,
+                retailer_city: registration.city,
+                retailer_state: registration.state,
+                retailer_zip: registration.zip,
+                retailer_phone: registration.phone,
+                retailer_fax: registration.fax,
+                retailer_website: registration.website,
+                retailer_pincode: registration.pincode,
+                registrationDate: registration.registrationDate,
             };
-
+    
             return res.status(200).json({ message: "Profile retrieved successfully", profile });
         } catch (error) {
             console.error('Profile retrieval failed:', error);
             return res.status(500).json({ message: "Profile retrieval failed", error: error.message });
         }
     });
+
+    app.put('/api/auth/Retailerprofile', authenticateToken, async (req, res) => {
+        try {
+            const { userId } = req.user;
+            const {
+                username,
+                email,
+                profile_image_url,
+                retailer_name,
+                address,
+                city,
+                state,
+                zip,
+                phone,
+                fax,
+                website,
+                pincode
+            } = req.body;
+    
+            // Find the registration document
+            const registration = await RetailerRegistration.findById(userId);
+            if (!registration) {
+                return res.status(400).json({ message: "User not found" });
+            }
+    
+            // Find the retailer document
+            const retailer = await Retailer.findOne({ retailer_code: registration.retailerCode });
+            if (!retailer) {
+                return res.status(400).json({ message: "Retailer not found" });
+            }
+    
+            // Update the registration document
+            registration.username = username || registration.username;
+            registration.email = email || registration.email;
+            registration.profile_image_url = profile_image_url || registration.profile_image_url;
+            registration.address = address || registration.address;
+            registration.city = city || registration.city;
+            registration.state = state || registration.state;
+            registration.zip = zip || registration.zip;
+            registration.phone = phone || registration.phone;
+            registration.fax = fax || registration.fax;
+            registration.website = website || registration.website;
+            registration.pincode = pincode || registration.pincode;
+    
+            // Save the updated registration document
+            await registration.save();
+    
+            // Update the retailer document
+            retailer.retailer_name = retailer_name || retailer.retailer_name;
+    
+            // Save the updated retailer document
+            await retailer.save();
+    
+            // Return the updated profile
+            const profile = {
+                userId: registration._id,
+                username: registration.username,
+                email: registration.email,
+                retailerCode: registration.retailerCode,
+                ProfileImageURL: registration.profile_image_url,
+                retailer_name: retailer.retailer_name,
+                retailer_address: registration.address,
+                retailer_city: registration.city,
+                retailer_state: registration.state,
+                retailer_zip: registration.zip,
+                retailer_phone: registration.phone,
+                retailer_fax: registration.fax,
+                retailer_website: registration.website,
+                retailer_pincode: registration.pincode,
+                registrationDate: registration.registrationDate,
+            };
+    
+            return res.status(200).json({ message: "Profile updated successfully", profile });
+        } catch (error) {
+            console.error('Profile update failed:', error);
+            return res.status(500).json({ message: "Profile update failed", error: error.message });
+        }
+    });
+    
+
+    
+    // Endpoint to handle user profile updates
+app.put('/api/auth/Retailerprofile', authenticateToken, async (req, res) => {
+    try {
+        const { userId } = req.user;
+        const updateData = req.body;
+
+        // Find user by userId
+        const registration = await RetailerRegistration.findById(userId);
+        if (!registration) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        // Update user registration data
+        Object.assign(registration, {
+            username: updateData.username,
+            email: updateData.email,
+            profile_image_url: updateData.ProfileImageURL,
+        });
+
+        await registration.save();
+
+        // Find retailer by retailer code
+        const retailer = await Retailer.findOne({ retailer_code: registration.retailerCode });
+        if (!retailer) {
+            return res.status(400).json({ message: "Retailer not found" });
+        }
+
+        // Update retailer data
+        Object.assign(retailer, {
+            name: updateData.retailer_name,
+            address: updateData.retailer_address,
+            city: updateData.retailer_city,
+            state: updateData.retailer_state,
+            zip: updateData.retailer_zip,
+            phone: updateData.retailer_phone,
+            fax: updateData.retailer_fax,
+            website: updateData.retailer_website,
+            pincode: updateData.retailer_pincode,
+        });
+
+        await retailer.save();
+
+        return res.status(200).json({ message: "Profile updated successfully" });
+    } catch (error) {
+        console.error('Profile update failed:', error);
+        return res.status(500).json({ message: "Profile update failed", error: error.message });
+    }
+});
+
+    
     const countSchemaRetailer = new mongoose.Schema({
         productName: String,
         size: String,
         countX: { type: Number, default: 0 },
-        price: Number,
+        TotalSale: { type: Number, default: 0 },
+        buyprice: { type: Number, default: 0 },
+        SalePrice: { type: Number, default: 0 },
         Productprofit: { type: Number, default: 0 },
         imageUrl: String, // new field for image URL
     });
@@ -504,61 +679,159 @@ app.post('/api/auth/RetailerRegister', async (req, res) => {
     // Create a function to generate count model
 
     
-          const createCountModelRetailer = (retailerName) => {
+   const createCountModelRetailer = (retailerName) => {
         return mongoose.model(retailerName + '_Count', countSchemaRetailer);
     };
-    app.post('/api/auth/buybyretailer', async (req, res) => {
-        const { retailerName,companyName, productCode } = req.body;
-      
-        try {
-          // Check if company name exists in the database
-          const company = await Company.findOne({ company_name: companyName });
-        // Get or create the count model based on companyName
-        
-          if (company) {
-            // Create product and count models
+    // API endpoint to fetch data from companyNameCount
+app.post('/api/products/addRetailerX', async (req, res) => {
+    const { retailerName } = req.body;
+
+    try {
+        // Create count model instance
+        const CountModelr = createCountModelRetailer(retailerName);
+
+        // Fetch data from companyNameCount collection
+        const countData = await CountModelr.find({});
+
+        // Extract relevant information
+        const productData = countData.map(item => {
+            return {
+                productName: item.productName,
+                size: item.size,
+                countX: item.countX,
+                TotalSale: item.TotalSale,
+                buyprice: item.buyprice,
+                SalePrice:item.SalePrice,
+                Productprofit: item.Productprofit,
+                imageUrl: item.imageUrl,
+            };
+        });
+
+        res.status(200).json({ success: true, data: productData });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ success: false, message: 'Failed to fetch data.' });
+    }
+});
+// Define your route that requires retailer authentication
+app.post('/api/auth/buybyretailer', async (req, res) => {
+    const { retailerName,companyName, productCode } = req.body;
+    
+    try {
+        const company = await Company.findOne({ company_name: companyName });
+
+        if (company) {
             const ProductModel = createProductModel(companyName);
             const CountModel = createCountModel(companyName);
-            const CountModelr= createCountModelRetailer(retailerName);
-            // Get size and product name from product code
+            const CountModelr = createCountModelRetailer(retailerName);
             const lowerCaseProductCode = productCode.toLowerCase();
             const size = lowerCaseProductCode.substring(0, 3).toUpperCase().replace(/^0/, '').replace(/^0/, '');
             const productName = lowerCaseProductCode.substring(17);
-           
-            // Check if product code exists in the product model
-            const product = await ProductModel.findOne({ productCode: productCode });
+
+            const product = await ProductModel.findOne({ productCode: lowerCaseProductCode });
             let existingCount = await CountModel.findOne({ productName: productName, size: size });
             if (product) {
-              if (product.status === 0) {
-                // Update product status and count
-                await ProductModel.updateOne({ productCode: productCode }, { status: 1 });
-                await CountModel.updateOne(
-                  { productName, size },
-                  { $inc: { status_1: 1 } }
-                );
-                await CountModelr.create(
-                    { productName, size },
-                    { $inc: { countX: 1 } },
-                    
+                if (product.status === 0) {
+                    const existingRetailerCount = await CountModelr.findOne({ productName: productName, size: size });
+
+                    if (existingRetailerCount) {
+                        await CountModelr.updateOne({ productName: productName, size: size }, { $inc: { countX: 1 } }, { imageUrl: existingCount.imageUrl });
+                    } else {
+                        await CountModelr.create({ productName, size, countX: 1,buyprice:existingCount.makingCost + existingCount.profit, imageUrl: existingCount.imageUrl });
+                    }
+                    await ProductModel.updateOne({ productCode: lowerCaseProductCode }, { status: 1 });
+                    await CountModel.updateOne({ productName, size }, { $inc: { status_1: 1 } });
                   
-                    {imageUrl: existingCount.imageUrl}
-                  );
-               
-                res.status(200).json({ message: 'Product add successfully' });
-              } else {
-                res.status(400).json({ message: 'Product is already updated.' });
-              }
+                    res.status(200).json({ message: 'Product added successfully' });
+                } else {
+                    res.status(400).json({ message: 'Product is already updated.' });
+                }
             } else {
-              res.status(404).json({ message: 'Product code not found.' });
+                res.status(404).json({ message: 'Product code not found.' });
+            }
+        } else {
+            res.status(404).json({ message: 'Company name not found.' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
+// Define your route that requires retailer authentication
+app.post('/api/auth/retailerSale', async (req, res) => {
+    const { retailerName, companyName, productCode } = req.body;
+    
+    try {
+        const company = await Company.findOne({ company_name: companyName });
+
+        if (company) {
+            const ProductModel = createProductModel(companyName);
+            const CountModel = createCountModel(companyName);
+            const CountModelr = createCountModelRetailer(retailerName);
+            const lowerCaseProductCode = productCode.toLowerCase();
+            const size = lowerCaseProductCode.substring(0, 3).toUpperCase().replace(/^0/, '').replace(/^0/, '');
+            const productName = lowerCaseProductCode.substring(17);
+
+            const product = await ProductModel.findOne({ productCode: lowerCaseProductCode });
+            let existingCount = await CountModel.findOne({ productName: productName, size: size });
+            if (product) {
+                if (product.status === 1) {
+                    const existingRetailerCount = await CountModelr.findOne({ productName: productName, size: size });
+
+                    if (existingRetailerCount) {
+                        await CountModelr.updateOne({ productName: productName, size: size }, { $inc: { TotalSale: 1 } }, { imageUrl: existingCount.imageUrl });
+                        await ProductModel.updateOne({ productCode: lowerCaseProductCode }, { status: 2 });
+                        await CountModel.updateOne({ productName, size }, { $inc: { status_2: 1 } });
+                    } 
+                  
+                  
+                    res.status(200).json({ message: 'Product Sale successfully' });
+                }else if(product.status === 0){
+                    res.status(400).json({ message: 'Product is not added.' });
+                }
+                else if(product.status === 2){
+                    res.status(400).json({ message: 'Product is already sold.' });
+                    
+                }
+            } else {
+                res.status(404).json({ message: 'Product code not found.' });
+            }
+        } else {
+            res.status(404).json({ message: 'Company name not found.' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+app.post('/api/products/verifyProduct', async (req, res) => {
+        const { companyName, productCode } = req.body;
+      
+        try {
+          // Check if the company exists in the Company collection
+          const company = await Company.findOne({ company_name: companyName });
+      
+          if (company) {
+            // Check if the product code exists in the product model for the given company
+            const Product = createProductModel(companyName);
+            const product = await Product.findOne({ productCode: productCode });
+      
+            if (product) {
+              // If the product code exists, return "original product" message
+              return res.status(200).json({ message: 'Original Product' });
+            } else {
+              // If the product code does not exist, return "fake product" message
+              return res.status(200).json({ message: 'Fake Product' });
             }
           } else {
-            res.status(404).json({ message: 'Company name not found.' });
+            // If the company does not exist, return "no company found" message
+            return res.status(400).json({ message: 'no company found' });
           }
-        } catch (err) {
-          res.status(500).json({ message: err.message });
+        } catch (error) {
+          console.error('Error verifying product:', error);
+          return res.status(500).json({ error: 'Failed to verify product' });
         }
       });
-        
 app.get('/', (req, res) => {
     res.send('Welcome to the authentication API!');
 });
