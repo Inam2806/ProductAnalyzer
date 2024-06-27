@@ -2,39 +2,38 @@ import React, { useState, useEffect } from 'react';
 import RetailerLogin from './RetailerLogin';
 import RetailerPage from './RetailerPage';
 import axios from 'axios';
-import '../style/Retailer.scss';
 
-const OwnerHome = () => {
+const RetailerHome = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
-  const [token, setToken] = useState(null); // State to store the token
-  const [profile, setProfile] = useState(null); // State to store the user profile
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/auth/Retailerprofile', {
-          headers: {
-            Authorization: `Bearer ${token}` // Include the token in the request headers
-          }
-        });
-        setProfile(response.data.profile);
-      } catch (error) {
-        console.error('Profile retrieval failed:', error);
-        // Handle profile retrieval error
+      if (isLoggedIn && token) {
+        try {
+          const response = await axios.get('http://localhost:5000/api/auth/Retailerprofile', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setProfile(response.data.profile);
+        } catch (error) {
+          console.error('Profile retrieval failed:', error);
+          handleLogout();
+        }
       }
     };
 
-    if (isLoggedIn && token) {
-      fetchProfile();
-    }
+    fetchProfile();
   }, [isLoggedIn, token]);
 
-  const handleLogin = (token) => {
-    if (token) { // Check if the token is valid
-      setToken(token); // Store the token
+  const handleLogin = (newToken) => {
+    if (newToken) {
+      setToken(newToken);
       setIsLoggedIn(true);
-      localStorage.setItem('token', token); // Store the token in local storage
-      console.log('Token:', token); // Log the token to the console
+      localStorage.setItem('token', newToken);
+      console.log('Token:', newToken);
     } else {
       console.error('Invalid token');
     }
@@ -43,39 +42,24 @@ const OwnerHome = () => {
   const handleLogout = () => {
     setToken(null);
     setIsLoggedIn(false);
+    setProfile(null);
     localStorage.removeItem('token');
-   console.log('Logged out');
+    console.log('Logged out');
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setToken(token);
-      setIsLoggedIn(true);
-    }
-  }, []);
 
   return (
     <div className="container">
-      
       {isLoggedIn ? (
-       profile ? (
-        <div>
-           
-          <RetailerPage className="owner-page" profile={profile} onLogout={handleLogout} /> 
-          
-           </div>
+        profile ? (
+          <RetailerPage className="owner-page" profile={profile} onLogout={handleLogout} />
         ) : (
-          <button className="logout" onClick={handleLogout}>Logout</button>
+          <p>Loading profile...</p>
         )
       ) : (
-        <RetailerLogin onLogin={handleLogin} /> 
-        
+        <RetailerLogin onLogin={handleLogin} />
       )}
-       
-   
     </div>
   );
 };
 
-export default OwnerHome;
+export default RetailerHome;

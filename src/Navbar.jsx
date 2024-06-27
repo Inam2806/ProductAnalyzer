@@ -7,9 +7,9 @@ import { NavLink } from 'react-router-dom';
 import './style/Navbar.scss';
 
 const NavBar = ({ onToggle }) => {
-     const handleNavLinkClick = () => {
-        // Call the onToggle function to close the Navbar toggle
-        onToggle();
+    const handleNavLinkClick = () => { 
+         // Call the onToggle function to close the Navbar toggle
+      onToggle();
     };
     return (
        <Navbar className="navbar navbar-expand-lg navbar-light" expand="lg" variant="light">

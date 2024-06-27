@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../style/RetailerProductVerification.scss'; // Import your SCSS file
 import { Link } from 'react-router-dom';
-const RetailerProductVerification = ({ retailerName }) => {
+const RetailerProductVerification = () => {
   const [companyName, setCompanyName] = useState('');
   const [productCode, setProductCode] = useState('');
   const [verificationResult, setVerificationResult] = useState('');
@@ -22,13 +22,16 @@ const RetailerProductVerification = ({ retailerName }) => {
 
   return (
     <div className="product-verification-container">
-      <nav className="navbar">
+      <nav className="navbarXX">
         <ul>
           <li>
             <Link to={`/Retailer-Home`}>Retailer Home</Link>
           </li>
           <li>
-          <Link to={`/Retailer-Home/${retailerName}-add`}>Buy by Retailer</Link>
+          <Link to={`/Retailer-Home/Add`}>Buy by Retailer</Link>
+          </li>
+          <li>
+            <Link to={`/Retailer-Home/Sales`}>Product Sales</Link>
           </li>
         </ul>
       </nav>

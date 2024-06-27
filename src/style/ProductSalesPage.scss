@@ -47,4 +47,38 @@
           width: 15%;
         }
       }
+      .slider {
+        margin: 40px auto; /* add some margin to create space between slider and table */
+        width: 80%;
+        max-width: 1200px;
+    
+       .slick-slider {
+          margin-bottom: 2rem;
+        }
+    
+       .slider-item {
+          padding: 20px;
+         
+          background-color: #000000;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          text-align: center;
+    
+          h3 {
+            color: white;
+            font-family: 'Times New Roman', Times, serif;
+            margin-bottom: 10px;
+          }
+    
+          p {
+            color: #ffffff;
+            font-family: 'Times New Roman', Times, serif;
+          }
+        }
+    
+       .slick-dots li button:before {
+          color: blue;
+        }
+      }
     }

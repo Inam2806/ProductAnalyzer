@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import '../style/OwnerPage.scss';
+import '../style/CommonOwner.scss';
 
 const OwnerPage = ({ profile, isLoggedIn, onLogout }) => {
 
@@ -10,7 +11,7 @@ const OwnerPage = ({ profile, isLoggedIn, onLogout }) => {
       <h1>Company Dashboard: {profile.companyName}</h1>
       <h2>Welcome, {profile.username}!</h2>
       {isLoggedIn && (
-        <nav className="centered-nav">
+        <nav className="centered-nav-Owner">
           <ul>
             <li>
               <NavLink to={`/Owner-Home/${profile.companyName}-add`} className="product-button">Product Add</NavLink>

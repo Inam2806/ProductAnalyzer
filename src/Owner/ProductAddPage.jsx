@@ -63,7 +63,7 @@ const ProductAddPage = ({ companyName }) => {
     
     return (
         <div className='productaddX'>
-            <nav className='centered-nav'>
+            <nav className='centered-nav-Owner'>
 
             <ul>
           <li>
@@ -71,14 +71,17 @@ const ProductAddPage = ({ companyName }) => {
           </li>
           
           <li>
-          <Link to="/Owner-Home" className="Home-button">Home</Link>
+          <Link to="/Owner-Home" className="product-button">Home</Link>
           </li>
 
         </ul>
       </nav>
-          <h2>Add {companyName} Product</h2>
+        
+        <div className="product-form-container">
+        <h2>Add {companyName} Product</h2>
           <button className="new-product-modal-button" onClick={openModal}>Add New Product</button>
           {isModalOpen && <NewProductModal closeModal={closeModal} companyName={companyName} />}
+        
           <div className="product-form">
             <label><h2>Product Code:</h2></label>
             <input
@@ -88,9 +91,10 @@ const ProductAddPage = ({ companyName }) => {
               placeholder="Enter product code"
             />
             <button onClick={addProduct}>Add Product</button>
-           
+            </div>
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
           </div>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
+        
           <div className="product-cards-container">
             {products.map((product, index) => (
               <div className="product-card" key={`${product.productName}-${index}`}>

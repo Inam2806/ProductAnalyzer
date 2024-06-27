@@ -22,19 +22,7 @@ h2 {
     color: #333;
   }
 
-  .centered-nav {
-    ul {
-      display: flex;
-      justify-content: center;
-      list-style-type: none;
-      padding: 0;
-
-      li {
-        margin: 0 10px;
-      }
-    }
-  }
-
+ 
   .welcome-container {
     margin-top: 20px;
     padding: 30px; // Increased padding for more space inside the container
@@ -67,17 +55,3 @@ h2 {
   }
 }
 
-.centered-nav {
-  ul {
-    display: flex;
-    justify-content: center;
-    list-style-type: none;
-    padding: 0;
-
-    li {
-      margin: 0 10px;
-
-
-    }
-  }
-}

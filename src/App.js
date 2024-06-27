@@ -8,19 +8,26 @@ import ProductAddPage from './Owner/ProductAddPage';
 import ProductSalesPage from './Owner/ProductSalesPage';
 import About from './About';
 import Contact from './Contact';
-
+import RetailerSale from './Retailer/RetailerSale';
 import Register from './Owner/Registration';
 import RetailerRegistration from './Retailer/RetailerRegistration';
 import OwnerHome from './Owner/OwnerHome';
 import RetailerHome from './Retailer/RetailerHome';
 import BuyByRetailer from './Retailer/BuyByRetailer';
-import ConsumerX from './consumer/Consumer';
+import ProfileRetailer from './Retailer/ProfileRetailer';
 import RetailerProductVerification from './Retailer/RetailerProductVerification';
+import ConsumerX from './consumer/Consumer';
+
 import NavBar from './Navbar';
+
 function App() {
   const [companyNames, setCompanyNames] = useState([]);
-  const [retailerNames, setRetailerNames] = useState([]);
+ 
+  const [navbarCollapsed, setNavbarCollapsed] = useState(true); // State to manage navbar collapse
 
+  const handleToggleNavbar = () => {
+    setNavbarCollapsed(!navbarCollapsed); // Toggle navbar collapse state
+  };
   useEffect(() => {
     async function fetchCompanyNames() {
       try {
@@ -30,22 +37,15 @@ function App() {
         console.error(error);
       }
     }
-    async function fetchRetailerNames() {
-      try {
-        const response = await axios.get('http://localhost:5000/api/auth/retailer/all');
-        setRetailerNames(response.data.retailer_names);
-      } catch (error) {
-        console.error(error);
-      }
-    }
+
 
     fetchCompanyNames();
-    fetchRetailerNames();
+  
   }, []);
 
   return (
     <Router>
-      <NavBar />
+     <NavBar onToggle={handleToggleNavbar} /> 
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/ownerpage" element={<OwnerPage />} />
@@ -69,21 +69,11 @@ function App() {
             element={<ProductSalesPage companyName={companyName} />}
           />
         ))}
-      
-         {retailerNames.map(retailerName => (
-          <Route
-            key={retailerName}
-            path={`/Retailer-Home/${retailerName}-add`}
-            element={<BuyByRetailer retailerName={retailerName} />}
-          />
-        ))}
-         {retailerNames.map(retailerName => (
-          <Route
-            key={retailerName}
-            path={`/Retailer-Home/${retailerName}-sales`}
-            element={<RetailerProductVerification  />}
-          />
-        ))}
+        <Route path={"/Retailer-Home/Add"} element={<BuyByRetailer />} />
+        <Route path={`/Retailer-Home/Verification`}  element={<RetailerProductVerification />}/>
+        <Route  path={`/Retailer-Home/Sales`} element={<RetailerSale  />}/>
+        <Route  path={`/Retailer-Home/Profile`}  element={<ProfileRetailer />} />
+        
         <Route path="/consumer" element={<ConsumerX />} />
         <Route path="/about" element={<About />} />
         

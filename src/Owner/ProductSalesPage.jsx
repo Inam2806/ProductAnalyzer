@@ -1,89 +1,133 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import '../style/ProductSalesPage.scss';
 
-  import React, { useState, useEffect } from 'react';
-  import { Link } from 'react-router-dom';
-  import axios from 'axios';
-  import '../style/ProductSalesPage.scss';
+const useFetchProducts = (companyName) => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [totalProfit, setTotalProfit] = useState(0);
+  const [highestSaleProduct, setHighestSaleProduct] = useState(null);
+  const [highestProfitProduct, setHighestProfitProduct] = useState(null);
 
-  const useFetchProducts = (companyName) => {
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.post('http://localhost:5000/api/products/addX', { companyName });
+        const { data, totalProfit, highestSaleProduct, highestProfitProduct } = response.data;
 
-    useEffect(() => {
-      const fetchData = async () => {
-        setLoading(true);
-        try {
-          const response = await axios.post('http://localhost:5000/api/products/addX', { companyName });
-          setProducts(response.data.data);
-        } catch (error) {
-          setError(error);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchData();
-    }, [companyName]);
+        setProducts(data);
+        setTotalProfit(totalProfit);
+        setHighestSaleProduct(highestSaleProduct);
+        setHighestProfitProduct(highestProfitProduct);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [companyName]);
 
-    return { products, loading, error };
+  return { products, loading, error, totalProfit, highestSaleProduct, highestProfitProduct };
+};
+
+const ProductSalesPage = ({ companyName }) => {
+  const { products, loading, error, totalProfit, highestSaleProduct, highestProfitProduct } = useFetchProducts(companyName);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const calculateTotalMakingCost = (product) => product.makingCost * product.status_1;
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
   };
 
-  const ProductSalesPage = ({ companyName }) => {
-    const { products, loading, error } = useFetchProducts(companyName);
+  return (
+    <div className="ProductSalesPage">
+      <nav className="centered-nav-Owner">
+        <ul>
+          <li>
+            <Link to={`/Owner-Home/${companyName}-add`} className="product-button">
+              Product Add
+            </Link>
+          </li>
+          <li>
+            <Link to="/Owner-Home" className="product-button">
+              Home
+            </Link>
+          </li>
+        </ul>
+      </nav>
+      <h2>{companyName} Product Sales</h2>
 
-    if (loading) {
-      return <div>Loading...</div>;
-    }
+      <Slider {...settings} className="slider">
+  <div className="slider-item">
+    {totalProfit !== null && (
+      <div>
+        <h3>Total Profit:</h3> <p> {totalProfit}
+        </p> </div>
+    )}
+  </div>
+  <div className="slider-item">
+    {highestSaleProduct && (
+      <div>
+        <h3>Highest Sale Product:</h3><p> {highestSaleProduct.productName} (Size: {highestSaleProduct.size}, Profit: {highestSaleProduct.profit})
+        </p>    </div>
+    )}
+  </div>
+  <div className="slider-item">
+    {highestProfitProduct && (
+      <div>
+        <h3>Highest Profit Product:</h3> <p> {highestProfitProduct.productName} (Size: {highestProfitProduct.size}, Product Profit: {highestProfitProduct.productProfit})
+        </p> </div>
+    )}
+  </div>
+</Slider>
 
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    }
-
-    const calculateTotalMakingCost = (product) => product.makingCost * product.status_1;
-    const calculateTotalProfit = (product) => product.profit * product.status_1;
-
-    return (
-      <div className="ProductSalesPage">
-        <nav className="centered-nav">
-          <ul>
-            <li>
-              <Link to={`/Owner-Home/${companyName}-add`} className="product-button">
-                Product Add
-              </Link>
-            </li>
-            <li>
-              <Link to="/Owner-Home" className="product-button">
-                Home
-              </Link>
-            </li>
-          </ul>
-        </nav>
-        <h2>{companyName} Product Sales</h2>
-        <table className="product-sales-table">
-          <thead>
-            <tr>
-              <th className="product-size">Product Size</th>
-              <th className="product-name">Product Name</th>
-              <th className="add-count">Product Add</th>
-              <th className="sales-count">Product Sale</th>
-              <th className="making-cost">Total Making Cost</th>
-              <th className="profit">Total Profit</th>
+      <table className="product-sales-table">
+        <thead>
+          <tr>
+            <th className="product-size">Product Size</th>
+            <th className="product-name">Product Name</th>
+            <th className="add-count">Product Add</th>
+            <th className="sales-count">Product Sale</th>
+            <th className="making-cost">Total Making Cost</th>
+            <th className="profit">Total Profit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product, index) => (
+            <tr key={`${product.productName}-${index}`}>
+              <td className="product-name">{product.size}</td>
+              <td className="product-name">{product.productName}</td>
+              <td className="add-count">{product.status_0}</td>
+              <td className="sales-count">{product.status_1}</td>
+              <td className="making-cost">{calculateTotalMakingCost(product)}</td>
+              <td className="profit">{product.profit * product.status_1}</td>
             </tr>
-          </thead>
-          <tbody>
-            {products.map((product, index) => (
-              <tr key={`${product.productName}-${index}`}>
-                <td className="product-name">{product.size}</td>
-                <td className="product-name">{product.productName}</td>
-                <td className="add-count">{product.status_0}</td>
-                <td className="sales-count">{product.status_1}</td>
-                <td className="making-cost">{calculateTotalMakingCost(product)}</td>
-                <td className="profit">{calculateTotalProfit(product)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  };
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
-  export default ProductSalesPage;
+export default ProductSalesPage;

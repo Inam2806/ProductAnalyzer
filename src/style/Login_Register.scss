@@ -36,8 +36,9 @@ $input-border-radius: $border-radius;
 // Container
 .container_login_register {
   text-align: center;
-  margin-bottom: 80px;
-  margin-top: 100px;
+  margin-bottom: 200px;
+  margin-top: 20px;
+  
 
   h1 {
     font-family: 'Times New Roman', Times, serif;
@@ -99,7 +100,7 @@ $input-border-radius: $border-radius;
     color: rgb(0, 94, 255);
     text-decoration: underline;
     font-size: 1.1rem;
-    margin-top: 15px;
+    margin-top: 2px;
     display: inline-block;
   }
 }

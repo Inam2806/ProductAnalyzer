@@ -1,0 +1,41 @@
+.product-table-container {
+  margin: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 200px;
+
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tbody {
+      tr {
+        &:hover {
+          background-color: #f9f9f9;
+        }
+
+        td {
+          img.product-image {
+            max-width: 100px;
+            align-items: center;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+          }
+        }
+      }
+    }
+  }
+}

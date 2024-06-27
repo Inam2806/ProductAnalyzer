@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../style/BuyByRetailer.scss';
 import { Link } from 'react-router-dom';
-const BuyByRetailer = ({ retailerName }) => {
+const BuyByRetailer = () => {
   const [products, setProducts] = useState([]);
   const [companyName, setCompanyName] = useState('');
   const [productCode, setProductCode] = useState('');
@@ -12,55 +12,61 @@ const BuyByRetailer = ({ retailerName }) => {
 });
 const fetchData = async () => {
   try {
-      const response = await axios.post('http://localhost:5000/api/products/addRetailerX', { retailerName: retailerName });
+      const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+      const config = {
+          headers: { Authorization: `Bearer ${token}` }
+      };
+
+      const response = await axios.post('http://localhost:5000/api/products/addRetailerX', {}, config);
       setProducts(response.data.data);
   } catch (error) {
       console.error('Error fetching data:', error);
   }
 };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem('retailerToken'); // Get the token from local storage
-    const config = {
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const token = localStorage.getItem('token'); // Get the token from local storage
+  const config = {
       headers: {
-        Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
       },
-    };
-    try {
+  };
+  try {
       const response = await axios.post(
-        'http://localhost:5000/api/auth/buybyretailer',
-        { retailerName, companyName, productCode },
-        config
+          'http://localhost:5000/api/auth/buybyretailer',
+          { companyName, productCode },
+          config
       );
       setMessage(response.data.message);
-    } catch (error) {
-      setMessage(error.response.data.message);
-    }
-  };
+  } catch (error) {
+      setMessage(error.response ? error.response.data.message : 'Error occurred');
+  }
+};
 
 
   return (
-  <div>
-    <div className="RetailerProductAdd">
+  <div className='RetailerMain'>
+    <div className="RetailerXX">
        
-       <nav className="navbar">
+       <nav className="navbarXX">
         <ul>
          
         <li>
             <Link to={`/Retailer-Home`}>Retailer Home</Link>
           </li>
           <li>
-            <Link to='/Retailer-Home'>Retailer Home</Link>
+          <Link to={`/Retailer-Home/Verification`}>Product Verification</Link>
+          </li>
+          <li>
+            <Link to={`/Retailer-Home/Sales`}>Product Sales</Link>
           </li>
         </ul>
       </nav>
       </div>
-      <div className='buy-by-retailerX'>
-
-      
-    <div className="buy-by-retailer">
-      <h2>Buy by Retailer</h2>
-      <form onSubmit={handleSubmit}>
+      <div className='Retailer-buy-sale'>
+       <h2>Buy by Retailer</h2>
+      <form  className='form-buy-sale' onSubmit={handleSubmit}>
         <div className="form-field">
           <label>Company Name:</label>
           <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
@@ -69,10 +75,11 @@ const fetchData = async () => {
           <label>Product Code:</label>
           <input type="text" value={productCode} onChange={(e) => setProductCode(e.target.value)} />
         </div>
-        <button type="submit">Submit</button>
-        {message && <p className='message'>{message}</p>}
+        <button type="submit-buy-sale">Submit</button>
+       
       </form>
-      </div>
+ 
+      {message && <p className='message-buy-sale'>{message}</p>}
     </div>
       <div className="product-cards-container">
             {products.map((product, index) => (
