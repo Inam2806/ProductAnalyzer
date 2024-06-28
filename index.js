@@ -511,10 +511,12 @@ app.post('/api/auth/RetailerRegister', async (req, res) => {
 
         return res.status(200).json({ message: "Login successful", token });
     } catch (error) {
-        console.error('Login failed:', error);
+        // Change: more detailed error logging
+        console.error('Login failed:', error.message, error.stack); 
         return res.status(500).json({ message: "Login failed", error: error.message });
     }
-    });
+});
+
 
     app.get('/api/auth/Retailerprofile', authenticateToken, async (req, res) => {
         try {
