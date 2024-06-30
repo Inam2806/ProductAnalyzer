@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../style/Login_Register.scss'; 
+import '../style/Login_Register.scss';
 
-const Login = ({ onLogin }) => { 
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [retailerCode, setRetailerCode] = useState('');
@@ -13,14 +13,14 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/RetailerLogin', {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/RetailerLogin`, {
         username,
         password,
         retailerCode
       });
       const token = response.data.token;
-      if (token) { 
-        onLogin(token); 
+      if (token) {
+        onLogin(token);
         localStorage.setItem('token', token);
         console.log('Login successful:', response.data);
       } else {
@@ -33,7 +33,8 @@ const Login = ({ onLogin }) => {
 
   return (
     <div className="container_login_register">
-      <h1>Retailer Dashboard</h1>
+      <h1>Retailer Dashboard </h1>
+      
       <form className="form-container" onSubmit={handleSubmit}>
         <h2>Login</h2>
         <input

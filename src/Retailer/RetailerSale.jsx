@@ -26,7 +26,7 @@ const RetailerSale = () => {
             headers: { Authorization: `Bearer ${token}` }
         };
   
-        const response = await axios.post('http://localhost:5000/api/products/addRetailerX', {}, config);
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/products/addRetailerX`, {}, config);
         setProducts(response.data.data);
     } catch (error) {
         console.error('Error fetching data:', error);

@@ -12,7 +12,7 @@ const OwnerHome = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/auth/profile', {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/auth/profile`, {
           headers: {
             Authorization: `Bearer ${token}` // Include the token in the request headers
           }

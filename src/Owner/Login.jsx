@@ -12,7 +12,7 @@ const Login = ({ onLogin }) => { // Accept onLogin function as a prop
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/login`, {
         username,
         password,
         companyCode

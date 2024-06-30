@@ -4,7 +4,7 @@ import axios from 'axios';
 import '../style/ProductAddPage.scss';
 import NewProductModal from './AddnewProduct.jsx';
 
-const ProductAddPage = ({ companyName }) => {
+const ProductAddPage = () => {
     const [products, setProducts] = useState([]);
     const [newProductCode, setNewProductCode] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,7 +16,11 @@ const ProductAddPage = ({ companyName }) => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/api/products/addX', { companyName: companyName });
+          const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+          const config = {
+              headers: { Authorization: `Bearer ${token}` }
+          };
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/products/addSaleX`, {}, config);
             setProducts(response.data.data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -31,35 +35,30 @@ const ProductAddPage = ({ companyName }) => {
         setIsModalOpen(false);
     };
     const addProduct = async () => {
-        try {
-            if (newProductCode.trim() !== "") {
-                const code = newProductCode.trim();
-    
-                const response = await axios.post("http://localhost:5000/api/products/add", {
-                    companyName: companyName,
-                    productCode: code,
-                });
-    
-               
-                if (response.status === 200) {
-                    
-                    setErrorMessage("Product added successfully");
-                   
-                } 
-            }
-        } catch (error) {
-            if (error.response && error.response.status === 400) {
-                if (error.response.data.message === 'Product code already exists') {
-                    setErrorMessage(error.response.data.message);
-                } else if (error.response.data.message === 'Product name and size combination does not exist. Do not add again.') {
-                    setErrorMessage(error.response.data.message);
-                }
-            } else {
-                console.error('Error adding product:', error);
-                setErrorMessage('Failed to add product. Please try again.');
-            }
-        }
-    };
+      try {
+          const token = localStorage.getItem('token');
+          const config = {
+              headers: { Authorization: `Bearer ${token}` }
+          };
+  
+          if (newProductCode.trim() !== "") {
+              const code = newProductCode.trim();
+  
+              const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/products/add`, {
+                  productCode: code,
+              }, config);
+  
+              setErrorMessage(response.data.message); // Directly use the message from the response
+          }
+      } catch (error) {
+          if (error.response) {
+              setErrorMessage(error.response.data.message); // Use the message from the response
+          } else {
+              setErrorMessage('Failed to add product. Please try again.'); // Default message for unexpected errors
+          }
+      }
+  };
+  
     
     return (
         <div className='productaddX'>
@@ -67,7 +66,7 @@ const ProductAddPage = ({ companyName }) => {
 
             <ul>
           <li>
-          <Link to={`/Owner-Home/${companyName}-sales`} className="product-button">Product Sales</Link>
+          <Link to={`/Owner-Home/Sale`} className="product-button">Product Sales</Link>
           </li>
           
           <li>
@@ -78,9 +77,9 @@ const ProductAddPage = ({ companyName }) => {
       </nav>
         
         <div className="product-form-container">
-        <h2>Add {companyName} Product</h2>
+        <h2>Add  Product</h2>
           <button className="new-product-modal-button" onClick={openModal}>Add New Product</button>
-          {isModalOpen && <NewProductModal closeModal={closeModal} companyName={companyName} />}
+          {isModalOpen && <NewProductModal closeModal={closeModal}  />}
         
           <div className="product-form">
             <label><h2>Product Code:</h2></label>

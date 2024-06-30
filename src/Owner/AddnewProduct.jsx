@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../style/Addnewproduct.scss';
 
-const NewProductModal = ({ closeModal, companyName }) => {
+const NewProductModal = ({ closeModal }) => {
   const [productName, setProductName] = useState('');
   const [size, setSize] = useState('');
   const [makingCost, setMakingCost] = useState('');
@@ -12,14 +12,17 @@ const NewProductModal = ({ closeModal, companyName }) => {
 
   const handleAddProduct = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/products/addnewproduct', {
-        companyName: companyName, // Replace with actual company name
+      const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+      const config = {
+          headers: { Authorization: `Bearer ${token}` }
+      };
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/products/addnewproduct`, {
         productName,
         size,
         makingCost,
         profit,
         imageUrl, // Include imageUrl in the request
-      });
+      }, config);
       if (response.data.success) {
         closeModal(); // Close modal after successful product addition
         setMessage('Product added successfully!'); // Set success message
@@ -45,15 +48,15 @@ const NewProductModal = ({ closeModal, companyName }) => {
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
             placeholder="Enter product name"
-            maxlength="50"
+            maxLength="50"
         />
-        <label >Size:</label>
+        <label>Size:</label>
         <input
             type="text"
             value={size}
             onChange={(e) => setSize(e.target.value)}
             placeholder="Enter product size"
-            maxlength="50"
+            maxLength="50"
         />
         <label>Making Cost:</label>
         <input
@@ -61,7 +64,7 @@ const NewProductModal = ({ closeModal, companyName }) => {
             value={makingCost}
             onChange={(e) => setMakingCost(e.target.value)}
             placeholder="Enter making cost"
-            maxlength="50"
+            maxLength="50"
         />
          <label>Profit:</label>
         <input
@@ -69,7 +72,7 @@ const NewProductModal = ({ closeModal, companyName }) => {
             value={profit}
             onChange={(e) => setProfit(e.target.value)}
             placeholder="Enter Profit"
-            maxlength="50"
+            maxLength="50"
         />
         <label>Image URL:</label>
         <input

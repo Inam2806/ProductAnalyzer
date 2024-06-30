@@ -14,10 +14,10 @@ const OwnerPage = ({ profile, isLoggedIn, onLogout }) => {
         <nav className="centered-nav-Owner">
           <ul>
             <li>
-              <NavLink to={`/Owner-Home/${profile.companyName}-add`} className="product-button">Product Add</NavLink>
+              <NavLink to={`/Owner-Home/Add`} className="product-button">Product Add</NavLink>
             </li>
             <li>
-              <NavLink to={`/Owner-Home/${profile.companyName}-sales`} className="product-button">Product Sales</NavLink>
+              <NavLink to={`/Owner-Home/Sale`} className="product-button">Product Sales</NavLink>
             </li>
           </ul>
         </nav>

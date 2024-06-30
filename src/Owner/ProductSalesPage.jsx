@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../style/ProductSalesPage.scss';
 
-const useFetchProducts = (companyName) => {
+const ProductSalesPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -15,30 +15,29 @@ const useFetchProducts = (companyName) => {
   const [highestProfitProduct, setHighestProfitProduct] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.post('http://localhost:5000/api/products/addX', { companyName });
-        const { data, totalProfit, highestSaleProduct, highestProfitProduct } = response.data;
-
-        setProducts(data);
-        setTotalProfit(totalProfit);
-        setHighestSaleProduct(highestSaleProduct);
-        setHighestProfitProduct(highestProfitProduct);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchData();
-  }, [companyName]);
+  }, []); // Empty dependency array ensures this effect runs only once after the initial render
 
-  return { products, loading, error, totalProfit, highestSaleProduct, highestProfitProduct };
-};
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/products/addSaleX`, {}, config);
+      const { data, totalProfit, highestSaleProduct, highestProfitProduct } = response.data;
 
-const ProductSalesPage = ({ companyName }) => {
-  const { products, loading, error, totalProfit, highestSaleProduct, highestProfitProduct } = useFetchProducts(companyName);
+      setProducts(data);
+      setTotalProfit(totalProfit);
+      setHighestSaleProduct(highestSaleProduct);
+      setHighestProfitProduct(highestProfitProduct);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -65,7 +64,7 @@ const ProductSalesPage = ({ companyName }) => {
       <nav className="centered-nav-Owner">
         <ul>
           <li>
-            <Link to={`/Owner-Home/${companyName}-add`} className="product-button">
+            <Link to={`/Owner-Home/Add`} className="product-button">
               Product Add
             </Link>
           </li>
@@ -76,31 +75,34 @@ const ProductSalesPage = ({ companyName }) => {
           </li>
         </ul>
       </nav>
-      <h2>{companyName} Product Sales</h2>
+      <h2>Product Sales</h2>
 
       <Slider {...settings} className="slider">
-  <div className="slider-item">
-    {totalProfit !== null && (
-      <div>
-        <h3>Total Profit:</h3> <p> {totalProfit}
-        </p> </div>
-    )}
-  </div>
-  <div className="slider-item">
-    {highestSaleProduct && (
-      <div>
-        <h3>Highest Sale Product:</h3><p> {highestSaleProduct.productName} (Size: {highestSaleProduct.size}, Profit: {highestSaleProduct.profit})
-        </p>    </div>
-    )}
-  </div>
-  <div className="slider-item">
-    {highestProfitProduct && (
-      <div>
-        <h3>Highest Profit Product:</h3> <p> {highestProfitProduct.productName} (Size: {highestProfitProduct.size}, Product Profit: {highestProfitProduct.productProfit})
-        </p> </div>
-    )}
-  </div>
-</Slider>
+        <div className="slider-item">
+          {totalProfit !== null && (
+            <div>
+              <h3>Total Profit:</h3>
+              <p>{totalProfit}</p>
+            </div>
+          )}
+        </div>
+        <div className="slider-item">
+          {highestSaleProduct && (
+            <div>
+              <h3>Highest Sale Product:</h3>
+              <p>{highestSaleProduct.productName} (Size: {highestSaleProduct.size}, Profit: {highestSaleProduct.profit})</p>
+            </div>
+          )}
+        </div>
+        <div className="slider-item">
+          {highestProfitProduct && (
+            <div>
+              <h3>Highest Profit Product:</h3>
+              <p>{highestProfitProduct.productName} (Size: {highestProfitProduct.size}, Product Profit: {highestProfitProduct.productProfit})</p>
+            </div>
+          )}
+        </div>
+      </Slider>
 
       <table className="product-sales-table">
         <thead>

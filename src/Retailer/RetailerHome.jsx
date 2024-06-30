@@ -12,7 +12,7 @@ const RetailerHome = () => {
     const fetchProfile = async () => {
       if (isLoggedIn && token) {
         try {
-          const response = await axios.get('http://localhost:5000/api/auth/Retailerprofile', {
+          const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/auth/Retailerprofile`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
