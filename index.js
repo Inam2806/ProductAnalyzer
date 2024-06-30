@@ -215,10 +215,17 @@ const createCountModel = (companyName) => {
     return mongoose.model(companyName + 'Count', countSchema);
 };
 
-app.post('/api/products/addnewproduct', async (req, res) => {
-    const { companyName, productName, size,makingCost,profit , imageUrl } = req.body; // include imageUrl in req.body
+app.post('/api/products/addnewproduct',authenticateToken, async (req, res) => {
+    const { productName, size,makingCost,profit , imageUrl } = req.body; // include imageUrl in req.body
 
     try {
+        const { userId } = req.user;
+
+        const registration = await Registration.findById(userId).lean();
+        if (!registration) {
+            return res.status(400).json({ success: false, message: "User not found" });
+        }
+        const companyName = registration.company_name;
         // Convert productName and size to lowercase
         const lowerCaseProductName = productName.toLowerCase();
         const UpperCaseSize = size.toUpperCase();
@@ -244,27 +251,28 @@ app.post('/api/products/addnewproduct', async (req, res) => {
 
 
 // API endpoint to fetch data from companyNameCount
-app.post('/api/products/addX', async (req, res) => {
-    const { companyName } = req.body;
-
+app.post('/api/products/addSaleX', authenticateToken, async (req, res) => {
     try {
-        // Create count model instance
+        const { userId } = req.user;
+
+        const registration = await Registration.findById(userId).lean();
+        if (!registration) {
+            return res.status(400).json({ success: false, message: "User not found" });
+        }
+        const companyName = registration.company_name;
         const CountModel = createCountModel(companyName);
 
-        // Fetch data from companyNameCount collection
         const countData = await CountModel.find({});
 
-        // Initialize variables to track totals and maximums
         let totalProfit = 0;
         let highestSaleProduct = null;
         let highestSaleProductValue = -Infinity;
         let highestProfitProduct = null;
         let highestProductProfitValue = -Infinity;
 
-        // Extract relevant information and compute necessary values
         const productData = countData.map(item => {
             const saleCount = item.status_1;
-            const totalProductProfit = item.profit * saleCount; // Adjusted total profit calculation based on sale count
+            const totalProductProfit = item.profit * saleCount;
 
             totalProfit += totalProductProfit;
 
@@ -313,35 +321,32 @@ app.post('/api/products/addX', async (req, res) => {
     }
 });
 
-
-
-app.post('/api/products/add', async (req, res) => {
-    const { companyName, productCode } = req.body;
+app.post('/api/products/add', authenticateToken, async (req, res) => {
+    const { productCode } = req.body;
     try {
-        // Convert productCode to lowercase
+        const { userId } = req.user;
+
+        const registration = await Registration.findById(userId).lean();
+        if (!registration) {
+            return res.json({ message: "User not found" });
+        }
+        const companyName = registration.company_name;
         const lowerCaseProductCode = productCode.toLowerCase();
 
-        // Parse the lowercase product code to extract size, price, and product code
-        const size = lowerCaseProductCode.substring(0, 3).toUpperCase().replace(/^0/, '').replace(/^0/, '');
+        const size = lowerCaseProductCode.substring(0, 3).toUpperCase().replace(/^0/, '');
         const price = parseInt(lowerCaseProductCode.substring(3, 7));
         const productCodePart = lowerCaseProductCode.substring(0);
         const productName = lowerCaseProductCode.substring(17);
 
-        // Get or create the product model based on companyName
         const Product = createProductModel(companyName);
-
-        // Get or create the count model based on companyName
         const Count = createCountModel(companyName);
 
-        // Check if the product name and size combination already exists in the count model
         let existingCount = await Count.findOne({ productName: productName, size: size });
 
         if (existingCount) {
-            // Check if the product code already exists in the product collection
             let existingProduct = await Product.findOne({ productCode: productCodePart });
 
             if (!existingProduct) {
-                // Add the product to the product model
                 await Product.create({
                     productCode: productCodePart,
                     size: size,
@@ -349,25 +354,24 @@ app.post('/api/products/add', async (req, res) => {
                     productName: productName
                 });
 
-                // Update count model
                 await Count.updateOne(
                     { productName: productName, size: size },
                     { $inc: { status_0: 1 } }
                 );
 
-                // Return success message if the product was added successfully
-                return res.status(200).json({ message: 'Product added successfully' });
+                return res.json({ message: 'Product added successfully' });
             } else {
-                return res.status(400).json({ message: 'Product code already exists' });
+                return res.json({ message: 'Product code already exists' });
             }
         } else {
-            return res.status(400).json({ message: 'Product name and size combination does not exist. Do not add again.' });
+            return res.json({ message: 'Product name and size combination does not exist. Do not add again.' });
         }
     } catch (error) {
-        console.error('Error adding product:', error);
-        return res.status(500).json({ error: 'Failed to add product' });
+        // Send a general error message
+        res.json({ message: 'Failed to add product' });
     }
 });
+
 
 
 
