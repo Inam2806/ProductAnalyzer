@@ -53,7 +53,7 @@ const RetailerHome = () => {
         profile ? (
           <RetailerPage className="owner-page" profile={profile} onLogout={handleLogout} />
         ) : (
-          <p>Loading profile...</p>
+          <p><button className="logout" onClick={handleLogout}>Logout</button></p>
         )
       ) : (
         <RetailerLogin onLogin={handleLogin} />

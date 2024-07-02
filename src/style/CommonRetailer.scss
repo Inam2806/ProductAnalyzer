@@ -67,50 +67,39 @@ h2 {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     animation: slideInUp 1s ease-in-out;
-
   
-
     .form-buy-sale {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-
+      gap: 10px; /* Added gap for better spacing */
+  
       @media (max-width: 768px) {
         flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
       }
-
+  
       .form-field {
         display: flex;
         flex-direction: row;
-        margin-right: 50px;
-
-        @media (max-width: 768px) {
-          flex-direction: column;
-          margin-right: 0;
-        }
-
-       
-
+        
+  
         input[type="text"] {
           padding: 10px;
           border: 1px solid #ccc;
           border-radius: 4px;
-          width: 500px;
+          width: 500px; /* Set a maximum width */
           box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-
-          @media (max-width: 768px) {
-            width: 100%;
+  
+          @media (max-width: 1450px) and (min-width: 768px) {
+            width: 100%; /* Full width for medium screens */
           }
-
           @media (max-width: 480px) {
-            width: calc(100% - 20px);
+            padding: 8px; /* Adjust padding for smaller screens */
           }
         }
       }
-
+  
       button[type="submit-buy-sale"] {
         background-color: #4CAF50;
         color: #fff;
@@ -118,23 +107,20 @@ h2 {
         border: none;
         border-radius: 50px;
         cursor: pointer;
-        width: 220px;
-        margin-right: 20px;
         font-size: 16px;
         transition: all 0.3s ease;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
+  
         @media (max-width: 768px) {
           width: 100%;
-          margin-right: 0;
+          padding: 10px; /* Adjust padding for smaller screens */
         }
-
+  
         @media (max-width: 480px) {
-          width: 100%;
-          padding: 10px;
           font-size: 14px;
+          padding: 8px; /* Adjust padding for even smaller screens */
         }
-
+  
         &:hover {
           background-color: #3e8e41;
           transform: scale(1.05);
@@ -142,6 +128,9 @@ h2 {
         }
       }
     }
+    
+    
+  
 
     .message-buy-sale {
       padding: 10px;
@@ -156,6 +145,7 @@ h2 {
 
       @media (max-width: 768px) {
         font-size: 20px;
+
       }
 
       @media (max-width: 480px) {
