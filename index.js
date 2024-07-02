@@ -654,9 +654,18 @@ app.post('/api/auth/buybyretailer', authenticateToken, async (req, res) => {
                     const existingRetailerCount = await CountModelr.findOne({ productName: productName, size: size });
 
                     if (existingRetailerCount) {
-                        await CountModelr.updateOne({ productName: productName, size: size }, { $inc: { countX: 1 } }, { imageUrl: existingCount.imageUrl });
+                        await CountModelr.updateOne({ 
+                            productName: productName, 
+                            size: size }, 
+                            { $inc: { countX: 1 } }, 
+                            { imageUrl: existingCount.imageUrl });
                     } else {
-                        await CountModelr.create({ productName, size, countX: 1,buyprice:existingCount.makingCost + existingCount.profit, imageUrl: existingCount.imageUrl });
+                        await CountModelr.create({ 
+                            productName, 
+                            size, 
+                            countX: 1,
+                            buyprice:existingCount.makingCost + existingCount.profit, 
+                            imageUrl: existingCount.imageUrl });
                     }
                     await ProductModel.updateOne({ productCode: lowerCaseProductCode }, { status: 1 });
                     await CountModel.updateOne({ productName, size }, { $inc: { status_1: 1 } });
