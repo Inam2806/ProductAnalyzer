@@ -13,10 +13,10 @@ const RetailerSale = () => {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []); // Added dependency array to prevent infinite loop
 
   useEffect(() => {
-    setSortedProducts([...products]); 
+    setSortedProducts([...products]);
   }, [products]);
 
   const fetchData = async () => {
@@ -43,7 +43,7 @@ const RetailerSale = () => {
     };
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/auth/retailerSale',
+        `${process.env.REACT_APP_BASE_URL}/api/auth/retailerSale`,
         { companyName, productCode },
         config
       );
@@ -102,26 +102,24 @@ const RetailerSale = () => {
               <th>Image</th>
               <th>Name</th>
               <th onClick={sortByCount} style={{ cursor: 'pointer' }}>
-              TotalSale <span>{sortDirection === 'asc' ? '▲' : '▼'}</span>
+                Total Sale <span>{sortDirection === 'asc' ? '▲' : '▼'}</span>
               </th>
               <th>Size</th>
             </tr>
           </thead>
           <tbody>
-{sortedProducts.map((product, index) => (
-  <tr key={`${product.productName}-${index}`}>
-    <td>{index + 1}</td>
-    <td>
-      <img src={product.imageUrl} alt={product.productName} className="product-image" />
-    </td>
-    <td>{product.productName}</td>
-    <td>{product.TotalSale}</td>
-    <td>{product.size}</td>
-     {/* New column displaying sequential numbers */}
-  </tr>
-))}
-</tbody>
-
+            {sortedProducts.map((product, index) => (
+              <tr key={`${product.productName}-${index}`}>
+                <td>{index + 1}</td>
+                <td>
+                  <img src={product.imageUrl} alt={product.productName} className="product-image" />
+                </td>
+                <td>{product.productName}</td>
+                <td>{product.TotalSale}</td>
+                <td>{product.size}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
     </div>

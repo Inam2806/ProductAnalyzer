@@ -60,8 +60,9 @@ const ProductSalesPage = () => {
   };
 
   return (
-    <div className="ProductSalesPage">
-      <nav className="centered-nav-Owner">
+    <div>
+
+<nav className="centered-nav-Owner">
         <ul>
           <li>
             <Link to={`/Owner-Home/Add`} className="product-button">
@@ -75,6 +76,8 @@ const ProductSalesPage = () => {
           </li>
         </ul>
       </nav>
+    <div className="ProductSalesPage">
+      
       <h2>Product Sales</h2>
 
       <Slider {...settings} className="slider">
@@ -128,6 +131,7 @@ const ProductSalesPage = () => {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

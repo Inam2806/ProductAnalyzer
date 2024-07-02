@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './style/LandPage.scss';
 
-
 function LandingPage() {
   const navigate = useNavigate();
 
@@ -11,11 +10,10 @@ function LandingPage() {
   };
 
   return (
-    <div>
     <div className="landing-page">
-      <h1 className="landing-title">Welcome to our website</h1>
+      <h1 className="landing-title">Welcome to Our Amazing Platform</h1>
       <p className="landing-description">
-        Explore our platform and discover how we can help you grow your business!
+        Dive into a world of opportunities and watch your business soar!
       </p>
       <div className="button-container">
         <button className="owner-button" onClick={handleOwnerClick}>OWNER</button>
@@ -24,21 +22,15 @@ function LandingPage() {
       </div>
       <div className="additional-content">
         <h2>Why Choose Us?</h2>
-        <p>Here are some reasons why you should choose our platform:</p>
+        <p>Here's why our platform stands out:</p>
         <ul>
-          <li>Advanced analytics to optimize your business strategies</li>
-          <li>Seamless integration with leading eCommerce platforms</li>
-          <li>Exceptional customer support to guide you every step of the way</li>
+          <li>Advanced analytics to supercharge your strategies</li>
+          <li>Seamless integration with top eCommerce platforms</li>
+          <li>Exceptional support to guide you every step</li>
         </ul>
-        <p>Ready to get started? Click on one of the buttons above!</p>
+        <p>Ready to embark on this journey? Click one of the buttons above!</p>
       </div>
-      
-      
-        
-      
     </div>
-  
-   </div>
   );
 }
 

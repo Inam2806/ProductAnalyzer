@@ -2,9 +2,9 @@
   margin: 20px auto;
   padding: 1.5rem;
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   max-width: 1200px;
   overflow: hidden;
   animation: fadeIn 1s ease-in-out;
@@ -12,12 +12,12 @@
   .product-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 10px;
+    background-color: #f0f8ff; /* Light background color */
+    border-radius: 12px;
 
     thead {
-      background-color: #007bff;
-      color: white;
+      background-color: #00796b;
+      color: #ffffff;
 
       th {
         padding: 15px;
@@ -28,7 +28,7 @@
         transition: background-color 0.3s ease;
 
         &:hover {
-          background-color: #0056b3;
+          background-color: #004d40;
         }
 
         span {
@@ -42,11 +42,11 @@
         animation: slideIn 0.5s ease-in-out;
 
         &:nth-of-type(even) {
-          background-color: #f2f2f2;
+          background-color: #f9f9f9;
         }
 
         &:hover {
-          background-color: #e9e9e9;
+          background-color: #f1f1f1;
           transition: background-color 0.3s ease;
         }
 

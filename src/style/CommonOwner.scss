@@ -1,39 +1,111 @@
-.centered-nav-Owner{
-    ul {
-      display: flex;
-      justify-content: center;
-      list-style-type: none;
-      padding: 0;
+/* Variables */
+$primary-color: #ff4081;  // Bright pink color for primary actions
+$hover-color-owner: #f50057;  // Darker pink for hover effect
+$active-color-owner: #c51162;  // Even darker pink for active effect
 
-      li {
-        margin: 0 10px;
-        .product-button,
-.home-button {
-  display: block;
-  margin: 10px 0;
-  background-color: #573afa;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s; // Add transform for a slight scaling effect
+$retailer-color: #ff5722;  // Bright orange for retailer actions
+$hover-color-retailer: #e64a19;  // Darker orange for hover effect
+$active-color-retailer: #d84315;  // Even darker orange for active effect
 
-  &:hover {
-    background-color: #080808;
-    color: #fff;
-    transform: scale(1.05); // Slightly enlarge the button on hover
-    text-decoration: none;
+$consumer-color: #2196f3;  // Bright blue for consumer actions
+$hover-color-consumer: #1e88e5;  // Darker blue for hover effect
+$active-color-consumer: #1976d2;  // Even darker blue for active effect
 
-  }
+$text-color: #fff;  // Text color for buttons
+$border-radius: 12px;  // Rounded corners for a modern look
 
-  &:active {
-    background-color: #d32f2f; // Darken the color when the button is active
-  }
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
+@keyframes slideIn {
+  from { transform: translateY(-30px); }
+  to { transform: translateY(0); }
+}
+
+/* Navigation Styles */
+.centered-nav-Owner {
+  ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+    animation: fadeIn 0.8s ease-in-out;
+
+    li {
+      margin: 0 15px;
+
+      .product-button,
+      .home-button,
+      .consumer-button {
+        display: block;
+        padding: 12px 24px;
+        border: none;
+        border-radius: $border-radius;
+        text-decoration: none;
+        font-size: 18px;
+        cursor: pointer;
+        color: $text-color;
+        text-align: center;
+        transition: background-color 0.3s, transform 0.3s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        animation: slideIn 0.8s ease-out;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+
+      /* Specific styles for buttons */
+      .product-button {
+        background-color: $primary-color;
+
+        &:hover {
+          background-color: $hover-color-owner;
+        }
+
+        &:active {
+          background-color: $active-color-owner;
+        }
+      }
+
+      .home-button {
+        background-color: $retailer-color;
+
+        &:hover {
+          background-color: $hover-color-retailer;
+        }
+
+        &:active {
+          background-color: $active-color-retailer;
+        }
+      }
+
+      .consumer-button {
+        background-color: $consumer-color;
+
+        &:hover {
+          background-color: $hover-color-consumer;
+        }
+
+        &:active {
+          background-color: $active-color-consumer;
+        }
       }
     }
   }
+}
+
+/* Common Styles for Buttons */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}

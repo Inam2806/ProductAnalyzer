@@ -14,7 +14,7 @@ const NewProductModal = ({ closeModal }) => {
     try {
       const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
       const config = {
-          headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` }
       };
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/products/addnewproduct`, {
         productName,
@@ -44,42 +44,42 @@ const NewProductModal = ({ closeModal }) => {
         <span className="close" onClick={closeModal}>&times;</span>
         <label>Product Name:</label>
         <input
-            type="text"
-            value={productName}
-            onChange={(e) => setProductName(e.target.value)}
-            placeholder="Enter product name"
-            maxLength="50"
+          type="text"
+          value={productName}
+          onChange={(e) => setProductName(e.target.value)}
+          placeholder="Enter product name"
+          maxLength="50"
         />
         <label>Size:</label>
         <input
-            type="text"
-            value={size}
-            onChange={(e) => setSize(e.target.value)}
-            placeholder="Enter product size"
-            maxLength="50"
+          type="text"
+          value={size}
+          onChange={(e) => setSize(e.target.value)}
+          placeholder="Enter product size"
+          maxLength="50"
         />
         <label>Making Cost:</label>
         <input
-            type="text"
-            value={makingCost}
-            onChange={(e) => setMakingCost(e.target.value)}
-            placeholder="Enter making cost"
-            maxLength="50"
+          type="text"
+          value={makingCost}
+          onChange={(e) => setMakingCost(e.target.value)}
+          placeholder="Enter making cost"
+          maxLength="50"
         />
-         <label>Profit:</label>
+        <label>Profit:</label>
         <input
-            type="text"
-            value={profit}
-            onChange={(e) => setProfit(e.target.value)}
-            placeholder="Enter Profit"
-            maxLength="50"
+          type="text"
+          value={profit}
+          onChange={(e) => setProfit(e.target.value)}
+          placeholder="Enter profit"
+          maxLength="50"
         />
         <label>Image URL:</label>
         <input
-        type="text"
-        value={imageUrl}
-        onChange={(e) => setImageUrl(e.target.value)}
-        placeholder="Enter image URL"
+          type="text"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+          placeholder="Enter image URL"
         />
         <button onClick={handleAddProduct}>Add Product</button>
         {message && <div className="message">{message}</div>}

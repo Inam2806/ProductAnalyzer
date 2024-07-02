@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../style/Login_Register.scss'; 
+import '../style/Login_Register.scss';
 
 const Registration = () => {
   const [username, setUsername] = useState('');
@@ -21,7 +21,7 @@ const Registration = () => {
       });
 
       console.log('Registration successful:', response.data);
-      
+
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setError(error.response.data.message);
@@ -42,26 +42,30 @@ const Registration = () => {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          className="login-input"
         />
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="login-input"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="login-input"
         />
         <input
           type="text"
           placeholder="Company Code"
           value={companyCode}
           onChange={(e) => setCompanyCode(e.target.value)}
+          className="login-input"
         />
-        <button  className='login-register' type="submit">Register</button>
+        <button className="login-register" type="submit">Register</button>
         {error && <p className="error-message">{error}</p>}
       </form>
       <p>Already have an account? <a href="/Owner-Home" className="login-register-link">Login</a></p>

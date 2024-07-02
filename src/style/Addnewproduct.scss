@@ -1,3 +1,30 @@
+/* Variables */
+:root {
+  --primary-bg-color: #f0f8ff;
+  --modal-bg-color: #ffffff;
+  --close-button-color: #ff4081;
+  --close-button-hover-color: #d40000; // Define hover color directly
+  --input-border-color: #ddd;
+  --input-bg-color: #fff;
+  --input-focus-border-color: #ff4081;
+  --button-bg-color: #4caf50;
+  --button-hover-bg-color: #81c784;
+  --message-bg-color: rgba(0, 255, 0, 0.1);
+  --scroll-duration: 0.5s;
+}
+
+/* Global Styles */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--primary-bg-color);
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  scroll-behavior: smooth;
+  transition: background-color 0.5s;
+}
+
+/* Modal Styles */
 .modal {
   position: fixed;
   top: 0;
@@ -8,58 +35,92 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; // Ensure the modal is on top
+  z-index: 1000;
+  animation: fadeIn 0.5s ease-in-out;
 
   .modal-content {
-    width: 500px;
-    padding: 20px;
-    border-radius: 10px; // Increase the border radius for a smoother look
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Add a subtle shadow
+    width: 400px; /* Reduced width */
+    padding: 15px; /* Reduced padding */
+    border-radius: 15px;
+    background-color: var(--modal-bg-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative; // For better positioning of the close button
+    position: relative;
+    animation: slideIn 0.5s ease-in-out;
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); }
+      to { transform: translateY(0); }
+    }
 
     .close {
       cursor: pointer;
-      font-size: 24px;
+      font-size: 20px; /* Reduced font size */
       font-weight: bold;
-      color: #f50101;
+      color: var(--close-button-color);
       transition: color 0.3s;
       align-self: flex-end;
       position: absolute;
-      top: 10px;
-      right: 10px; // Position the close button properly
+      top: 5px; /* Adjusted position */
+      right: 5px; /* Adjusted position */
       &:hover {
-        color: #d40000;
+        color: var(--close-button-hover-color); // Use predefined hover color
       }
     }
 
-    .product-name,
-    .size,
-    .image-url {
-      margin-bottom: 15px; // Add more space between the inputs
-      width: 100%; // Ensure inputs take the full width
-      input {
-        width: 100%; // Make sure the input fields are full width
-        padding: 10px; // Consistent padding for inputs
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-sizing: border-box; // Ensure padding does not affect width
+    label {
+      margin: 5px 0; /* Reduced margin */
+      font-size: 14px; /* Reduced font size */
+      font-weight: bold;
+      color: var(--close-button-color);
+    }
+
+    input {
+      width: 100%;
+      padding: 8px; /* Reduced padding */
+      margin-bottom: 10px; /* Reduced margin */
+      border: 1px solid var(--input-border-color);
+      border-radius: 5px;
+      background-color: var(--input-bg-color);
+      transition: border-color 0.3s;
+      &:focus {
+        border-color: var(--input-focus-border-color);
+      }
+    }
+
+    button {
+      font-size: 1rem; /* Reduced font size */
+      padding: 8px 16px; /* Reduced padding */
+      margin: 8px 0; /* Reduced margin */
+      border: none;
+      border-radius: 25px;
+      background-color: var(--button-bg-color);
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+      &:hover {
+        background-color: var(--button-hover-bg-color);
+        transform: scale(1.05);
       }
     }
 
     .message {
       margin-top: 10px;
-      font-size: 14px;
+      font-size: 12px; /* Reduced font size */
       color: green;
-      background-color: rgba(0, 255, 0, 0.1);
-      padding: 10px 15px; // Increase padding for a better look
+      background-color: var(--message-bg-color);
+      padding: 8px 12px; /* Reduced padding */
       border-radius: 5px;
-      text-align: center; // Center the text
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
     }
   }
 }
-

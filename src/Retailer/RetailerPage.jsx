@@ -52,7 +52,7 @@ const RetailerPage = ({ profile, onLogout }) => {
       <h2>Welcome, {profile.username}!</h2>
 
       <div className="welcome-container">
-        <h2>Welcome to the Dashboard! </h2>
+        <h2>Welcome to the Dashboard!</h2>
         <p>Learn more about brokers by navigating through the menu.</p>
       </div>
 

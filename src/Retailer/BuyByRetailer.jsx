@@ -65,7 +65,7 @@ const handleSubmit = async (e) => {
       </nav>
       </div>
       <div className='Retailer-buy-sale'>
-       <h2>Buy by Retailer</h2>
+       <h2>Add Product</h2>
       <form  className='form-buy-sale' onSubmit={handleSubmit}>
         <div className="form-field">
           <label>Company Name:</label>
