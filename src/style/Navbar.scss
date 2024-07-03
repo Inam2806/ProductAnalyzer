@@ -7,68 +7,45 @@
   box-sizing: border-box;
 }
 
-.navbar.navbar-expand-lg.navbar-light>img {
-  width: 120px;
-  padding: 0 8px;
-}
-
-.background {
-  background-color: white;
-}
-
 .navbar {
-  text-align: center;
-  background-image: linear-gradient(to right, #000000, #000000);
-  height: 80px;
-  font-family: 'Times New Roman', Times, serif;
+  background-color: black; /* Darker gradient for a sleek look */
+  font-family: 'Ubuntu', sans-serif;
   z-index: 99;
-  max-width: 120%;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
+  max-width: 100%;
+
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.3); /* Enhanced shadow for depth */
+  padding: 0 20px; /* Added padding for better spacing */
+}
+
+.navbar img {
+  width: 120px;
+  padding: 0 10px;
 }
 
 .navbar-light .navbar-nav.ml-auto {
-  display: inline-flex;
-  list-style: none;
+  display: flex;
+  justify-content: center; /* Center items in the navbar */
+  align-items: center;
 }
 
-.navbar.navbar-expand-lg.navbar-light .item {
-  width: 150px;
-  margin: 15px;
-  padding: 15px;
+.navbar .item {
+  margin: 0 10px;
+  padding: 10px 15px;
   text-align: center;
 }
 
-.navbar.navbar-expand-lg.navbar-light .nav-link {
+.navbar .nav-link {
   text-decoration: none;
   color: rgb(241, 241, 241);
-  transition: color 0.3s ease;
-}
-
-.navbar.navbar-expand-lg.navbar-light .navbar-toggler-icon {
-  background-color: rgb(113, 113, 113);
-  padding: 10px;
-  border-color: rgb(23, 23, 23);
-  border-radius: 5px;
-}
-
-.active,
-.navbar-light .navbar-nav.ml-auto .item:hover {
-  background: rgb(23, 23, 23);
-  border-radius: 3px;
-}
-
-.navbar-light .fa {
-  margin-right: 8px;
-}
-
-.navbar .nav-link {
-  transition: color 0.3s ease;
+  font-size: 1.1em; /* Increased font size for better visibility */
+  font-weight: 500; /* Slightly bolder text */
+  transition: color 0.3s ease, background 0.3s ease;
 }
 
 .navbar .nav-link:hover {
   color: #fff;
+  background-color: rgba(0, 0, 0, 0.3); /* Subtle background change on hover */
+  border-radius: 5px; /* Rounded corners for the hover effect */
 }
 
 .navbar .nav-item {
@@ -80,40 +57,67 @@
 }
 
 .navbar .nav-link i {
-  margin-right: 5px;
+  margin-right: 8px;
 }
 
 .navbar .nav-link.fa {
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
-@media only screen and (max-width: 767px) {
-  body {
-    background-color: rgb(61, 61, 61);
-  }
+.navbar-toggler {
+  box-shadow: 0px 5px 15px rgba(238, 237, 237, 0.3);
+  padding: 10px;
+  background-color: rgb(94, 94, 94);
+  border-color: rgb(23, 23, 23);
+  border-radius: 5px;
+}
 
-  .navbar {
-    max-width: 100%;
-  }
 
-  .navbar-collapse {
-    background-color: rgba(0, 0, 0, 0.8);
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 200px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    padding: 10px;
-  }
+.navbar-collapse {
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
 
+.navbar-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items in the column layout */
+}
+
+@media only screen and (min-width: 768px) {
   .navbar-nav {
-    width: 100%;
+    flex-direction: row; /* Row-wise layout for larger screens */
   }
 
   .item {
+    margin: 0 15px;
+    padding: 15px 20px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+ 
+
+  .navbar-collapse {
+    background-color: rgba(0, 0, 0, 0.9); /* Consistent background color */
+    border: 1px solid #ccc;
+    position: absolute;
+    top: 100%;
+    right: 0;
     width: 100%;
+    max-width: 300px; /* Wider menu for smaller screens */
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+  }
+
+  .item {
     margin: 10px 0;
+  }
+
+  .nav-link {
+    color: rgb(241, 241, 241); /* Consistent text color */
   }
 }
