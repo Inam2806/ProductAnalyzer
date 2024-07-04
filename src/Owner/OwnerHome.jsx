@@ -61,7 +61,7 @@ const OwnerHome = () => {
       {isLoggedIn? (
         profile? (
           <OwnerPage 
-            className="owner-page" 
+
             profile={profile} 
             isLoggedIn={isLoggedIn} 
             onLogout={handleLogout} 
