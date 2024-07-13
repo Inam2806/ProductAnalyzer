@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 5000;
+
 const bodyParser = require('body-parser');
 // Apply express.json() middleware to parse JSON request bodies
 app.use(express.json());
@@ -325,15 +325,21 @@ app.post('/api/products/add', authenticateToken, async (req, res) => {
     const { productCode } = req.body;
     try {
         const { userId } = req.user;
-
         const registration = await Registration.findById(userId).lean();
+
         if (!registration) {
             return res.json({ message: "User not found" });
         }
+        
         const companyName = registration.company_name;
         const lowerCaseProductCode = productCode.toLowerCase();
+        
+       
+        
+        let size = lowerCaseProductCode.substring(0, 3).toUpperCase();
+        size = size.replace(/^0+/, '');
+        console.log('Size after removing leading zeros:', size);
 
-        const size = lowerCaseProductCode.substring(0, 3).toUpperCase().replace(/^0/, '');
         const price = parseInt(lowerCaseProductCode.substring(3, 7));
         const productCodePart = lowerCaseProductCode.substring(0);
         const productName = lowerCaseProductCode.substring(17);
@@ -367,8 +373,8 @@ app.post('/api/products/add', authenticateToken, async (req, res) => {
             return res.json({ message: 'Product name and size combination does not exist. Do not add again.' });
         }
     } catch (error) {
-        // Send a general error message
-        res.json({ message: 'Failed to add product' });
+        console.error('Error adding product:', error); // Log the specific error
+        res.json({ message: 'Failed to add product', error: error.message }); // Send the error message
     }
 });
 
@@ -770,7 +776,9 @@ app.post('/api/products/verifyProduct', async (req, res) => {
           return res.status(500).json({ error: 'Failed to verify product' });
         }
       });
+
 app.get('/', (req, res) => {
     res.send('Welcome to the authentication API!');
 });
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
