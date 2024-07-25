@@ -8,13 +8,12 @@
 }
 
 .navbar {
-  background-color: black; /* Darker gradient for a sleek look */
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 1) 100%);
   font-family: 'Ubuntu', sans-serif;
   z-index: 99;
   max-width: 100%;
-
-  box-shadow: 0px 5px 15px rgba(0,0,0,0.3); /* Enhanced shadow for depth */
   padding: 0 20px; /* Added padding for better spacing */
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5); /* Enhanced shadow for depth */
 }
 
 .navbar img {
@@ -30,8 +29,9 @@
 
 .navbar .item {
   margin: 0 10px;
-  padding: 10px 15px;
+  padding: 8px 15px;
   text-align: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navbar .nav-link {
@@ -39,21 +39,30 @@
   color: rgb(241, 241, 241);
   font-size: 1.1em; /* Increased font size for better visibility */
   font-weight: 500; /* Slightly bolder text */
-  transition: color 0.3s ease, background 0.3s ease;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  border-radius: 5px; /* Rounded corners for the hover effect */
+  padding: 10px 15px;
 }
 
 .navbar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Light background color on hover */
+  color: #fff; /* Ensure text color remains white */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+}
+
+.navbar .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.4); /* Slightly darker background for active link */
   color: #fff;
-  background-color: rgba(0, 0, 0, 0.3); /* Subtle background change on hover */
-  border-radius: 5px; /* Rounded corners for the hover effect */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Slightly more pronounced shadow for active link */
 }
 
 .navbar .nav-item {
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navbar .nav-item:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
 }
 
 .navbar .nav-link i {
@@ -71,7 +80,6 @@
   border-color: rgb(23, 23, 23);
   border-radius: 5px;
 }
-
 
 .navbar-collapse {
   border-radius: 5px;
@@ -92,13 +100,11 @@
 
   .item {
     margin: 0 15px;
-    padding: 15px 20px;
+    padding: 10px 20px; /* Adjusted padding for larger screens */
   }
 }
 
 @media only screen and (max-width: 767px) {
- 
-
   .navbar-collapse {
     background-color: rgba(0, 0, 0, 0.9); /* Consistent background color */
     border: 1px solid #ccc;

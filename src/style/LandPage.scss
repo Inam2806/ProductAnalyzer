@@ -115,12 +115,27 @@ body {
   margin: 10px 0;
 }
 
-/* Media Query for Mobile and Tablet Devices */
-@media only screen and (max-width: 1100px) {
-  body {
-    color: var(--text-color);
+/* Media Query for Laptop and Large Screens */
+@media only screen and (min-width: 1024px) {
+  .landing-title {
+    font-size: 3rem;
   }
 
+  .landing-description {
+    font-size: 1.5rem;
+  }
+
+  .additional-content h2 {
+    font-size: 2rem;
+  }
+
+  .additional-content p, .additional-content ul {
+    font-size: 1.2rem;
+  }
+}
+
+/* Media Query for Tablet Devices */
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
   .landing-title {
     font-size: 2.5rem;
   }
@@ -135,5 +150,50 @@ body {
 
   .additional-content p, .additional-content ul {
     font-size: 1rem;
+  }
+
+  .landing-page button {
+    font-size: 1rem;
+    padding: 0.8rem 1.6rem;
+  }
+
+  .button-container {
+    flex-direction: column;
+  }
+}
+
+/* Media Query for Mobile Devices */
+@media only screen and (max-width: 768px) {
+  .landing-title {
+    font-size: 2rem;
+  }
+
+  .landing-description {
+    font-size: 1rem;
+  }
+
+  .additional-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .additional-content p, .additional-content ul {
+    font-size: 0.9rem;
+  }
+
+  .landing-page button {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.4rem;
+  }
+
+  .button-container {
+    flex-direction: row;
+  }
+
+  .landing-page {
+    margin: 50px 10px;
+  }
+
+  .additional-content {
+    margin: 20px 10px;
   }
 }
