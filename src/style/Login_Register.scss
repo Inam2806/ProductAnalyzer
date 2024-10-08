@@ -126,3 +126,41 @@ $input-border-radius: $border-radius;
 .password-container button[type="button"]:hover {
   color: darken($primary-color, 10%);
 }
+
+// Test Credentials Section
+.test-credentials {
+  background: #f9f9f9; // Light gray background for the test credentials
+  border: 1px solid #ccc;
+  border-radius: $border-radius;
+  padding: 15px;
+  margin: 20px auto;
+  max-width: 800px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.7s ease-in-out;
+
+  h3 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: $primary-color; // Use primary color for headings
+  }
+
+  p {
+    font-size: 14px;
+    color: #333; // Darker text for better readability
+    margin-bottom: 8px;
+  }
+
+  button {
+    @include button-styles; // Use the button styles mixin
+    width: auto; // Adjust width for this button
+    margin-top: 10px; // Space above the button
+    padding: 8px 16px; // Adjust padding for the button
+  }
+
+  .disclaimer {
+    font-size: 12px;
+    color: #666; // Lighter color for disclaimer text
+    margin-top: 15px;
+  }
+}

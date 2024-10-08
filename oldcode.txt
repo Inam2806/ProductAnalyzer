@@ -1,0 +1,364 @@
+//login.jsx
+//OwnerPage.jsx
+//ProductAddPage.jsx
+//Login_Register.scss
+
+import React, { useState } from 'react';
+import axios from 'axios';
+import '../style/Login_Register.scss';
+
+const Login = ({ onLogin }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [companyCode, setCompanyCode] = useState('');
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/login`, {
+        username,
+        password,
+        companyCode
+      });
+      const token = response.data.token;
+      if (token) {
+        onLogin(token);
+        localStorage.setItem('token', token);
+        console.log('Login successful:', response.data);
+      } else {
+        setError('Invalid token');
+      }
+    } catch (error) {
+      setError(error.response.data.message);
+    }
+  };
+
+  return (
+    <div className="container_login_register">
+      <h1>Owner Dashboard</h1>
+      <form className="form-container" onSubmit={handleSubmit}>
+        <h2>Login</h2>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="login-input"
+        />
+        <div className="password-container">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="login-input"
+          />
+          <button
+            type="button"
+            className={`eye-button ${showPassword ? "active" : ""}`}
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? "🙈" : "👁️"}
+          </button>
+        </div>
+        <input
+          type="text"
+          placeholder="Company Code"
+          value={companyCode}
+          onChange={(e) => setCompanyCode(e.target.value)}
+          className="login-input"
+        />
+        <button className="login-register" type="submit">Login</button>
+        {error && <p className="error-message">{error}</p>}
+      </form>
+      <p>Don't have an account? <a href="/register" className="login-register-link">Register</a></p>
+    </div>
+  );
+};
+
+export default Login;
+
+
+
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import '../style/OwnerPage.scss';
+import '../style/CommonOwner.scss';
+
+const OwnerPage = ({ profile, isLoggedIn, onLogout }) => {
+  return (
+    <div className="containerX">
+      <h1 className="dashboard-title">Company Dashboard: {profile.companyName}</h1>
+      <h2 className="welcome-title">Welcome, {profile.username}!</h2>
+      {isLoggedIn && (
+        <nav className="centered-nav-Owner">
+          <ul>
+            <li>
+              <NavLink to={`/Owner-Home/Add`} className="product-button">Add Product</NavLink>
+            </li>
+            <li>
+              <NavLink to={`/Owner-Home/Sale`} className="product-button">Product Sales</NavLink>
+            </li>
+          </ul>
+        </nav>
+      )}
+      <div className="welcome-container">
+        <h2>Welcome to Your Dashboard!</h2>
+        <p>Explore the options to manage your products and track your sales.</p>
+      </div>
+
+      <button className="logout" onClick={onLogout}>Logout</button>
+    </div>
+  );
+};
+
+export default OwnerPage;
+
+
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import '../style/ProductAddPage.scss';
+import NewProductModal from './AddnewProduct.jsx';
+
+const ProductAddPage = () => {
+    const [products, setProducts] = useState([]);
+    const [newProductCode, setNewProductCode] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        fetchData();
+    });
+
+    const fetchData = async () => {
+        try {
+          const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+          const config = {
+              headers: { Authorization: `Bearer ${token}` }
+          };
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/products/addSaleX`, {}, config);
+            setProducts(response.data.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+    const addProduct = async () => {
+      try {
+          const token = localStorage.getItem('token');
+          const config = {
+              headers: { Authorization: `Bearer ${token}` }
+          };
+  
+          if (newProductCode.trim() !== "") {
+              const code = newProductCode.trim();
+  
+              const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/products/add`, {
+                  productCode: code,
+              }, config);
+  
+              setErrorMessage(response.data.message); // Directly use the message from the response
+          }
+      } catch (error) {
+          if (error.response) {
+              setErrorMessage(error.response.data.message); // Use the message from the response
+          } else {
+              setErrorMessage('Failed to add product. Please try again.'); // Default message for unexpected errors
+          }
+      }
+  };
+  
+    
+    return (
+        <div className='productaddX'>
+            <nav className='centered-nav-Owner'>
+
+            <ul>
+          <li>
+          <Link to={`/Owner-Home/Sale`} className="product-button">Product Sales</Link>
+          </li>
+          
+          <li>
+          <Link to="/Owner-Home" className="product-button">Home</Link>
+          </li>
+
+        </ul>
+      </nav>
+        
+        <div className="product-form-container">
+        <h2>Add  Product</h2>
+          <button className="new-product-modal-button" onClick={openModal}>Add New Product</button>
+          {isModalOpen && <NewProductModal closeModal={closeModal}  />}
+        
+          <div className="product-form">
+            <label><h2>Product Code:</h2></label>
+            <input
+              type="text"
+              value={newProductCode}
+              onChange={(e) => setNewProductCode(e.target.value)}
+              placeholder="Enter product code"
+            />
+            <button onClick={addProduct}>Add Product</button>
+            </div>
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
+          </div>
+        
+          <div className="product-cards-container">
+            {products.map((product, index) => (
+              <div className="product-card" key={`${product.productName}-${index}`}>
+                <img src={product.imageUrl} alt={product.productName} className="product-image" />
+                <div className="product-details">
+                  <div className="product-name">{product.productName}</div>
+                  <div className="product-count">Count: {product.status_0}</div>
+                  <div className="product-size">Size: {product.size}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+}
+
+export default ProductAddPage;
+
+
+
+// Variables
+$primary-color: #ff5722; // Bright orange color for primary actions
+$error-color: #f44336; // Red color for error messages
+$border-radius: 8px;
+$max-width: 400px;
+$input-padding: 12px;
+$input-margin-bottom: 10px;
+$input-border-radius: $border-radius;
+
+// Mixins
+@mixin button-styles {
+  background-color: $primary-color;
+  color: white;
+  padding: $input-padding $input-padding * 2;
+  border: none;
+  border-radius: $input-border-radius;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    background-color: darken($primary-color, 20%);
+    transform: scale(0.95);
+  }
+}
+
+@mixin input-styles {
+  padding: $input-padding;
+  margin-bottom: $input-margin-bottom;
+  border: 1px solid #ddd;
+  border-radius: $input-border-radius;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 1rem;
+}
+
+// Container
+.container_login_register {
+  text-align: center;
+  margin-bottom: 200px;
+  margin-top: 20px;
+
+  h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+
+  // Form Container
+  .form-container {
+    background: #ffffff; // White background for the form
+    border: 1px solid #ccc;
+    border-radius: $border-radius;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: $max-width;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.7s ease-in-out;
+
+    h2 {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    // Login/Register Button
+    .login-register {
+      @include button-styles;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    // Error Message
+    .error-message {
+      color: $error-color;
+      margin-bottom: 10px;
+    }
+  }
+
+  // Inputs
+  input[type="text"], input[type="password"], input[type="email"] {
+    @include input-styles;
+  }
+
+  .login-input {
+    font-size: 1.1rem;
+  }
+
+  .login-register-link {
+    color: $primary-color;
+    text-decoration: underline;
+    font-size: 1.1rem;
+    margin-top: 10px;
+    display: inline-block;
+  }
+}
+
+// Password Toggle Button
+.password-container {
+  position: relative;
+}
+
+.password-container button[type="button"] {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 18px;
+  width: 28px;
+}
+
+.password-container button[type="button"]:hover {
+  color: darken($primary-color, 10%);
+}

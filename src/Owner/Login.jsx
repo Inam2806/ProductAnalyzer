@@ -31,9 +31,25 @@ const Login = ({ onLogin }) => {
     }
   };
 
+  const fillTestCredentials = () => {
+    setUsername('inam28');
+    setPassword('Qazplm@280601');
+    setCompanyCode('NIKE0dbjwcjaj13j2492');
+  };
+
   return (
     <div className="container_login_register">
       <h1>Owner Dashboard</h1>
+      
+      <div className="test-credentials">
+        <button onClick={fillTestCredentials} className="test-credentials-button">
+          Use Test Credentials
+        </button>
+        <p className="disclaimer">
+          Disclaimer: These test credentials are provided for demonstration purposes only. Do not use personal or sensitive data.
+        </p>
+      </div>
+      
       <form className="form-container" onSubmit={handleSubmit}>
         <h2>Login</h2>
         <input

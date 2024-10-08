@@ -14,9 +14,11 @@ const OwnerPage = ({ profile, isLoggedIn, onLogout }) => {
             <li>
               <NavLink to={`/Owner-Home/Add`} className="product-button">Add Product</NavLink>
             </li>
-            <li>
-              <NavLink to={`/Owner-Home/Sale`} className="product-button">Product Sales</NavLink>
-            </li>
+            {profile.mainOwner === 1 && ( // Check explicitly for mainOwner being 1
+              <li>
+                <NavLink to={`/Owner-Home/Sale`} className="product-button">Product Sales</NavLink>
+              </li>
+            )}
           </ul>
         </nav>
       )}
