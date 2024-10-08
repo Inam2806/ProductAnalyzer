@@ -17,7 +17,7 @@ const Registration = () => {
         username,
         email,
         password,
-        companyCode
+        companyCode,
       });
 
       console.log('Registration successful:', response.data);
@@ -33,10 +33,19 @@ const Registration = () => {
 
   return (
     <div className="container_login_register">
+      
       <h1>Owner Dashboard</h1>
+      <div className="test-credentials">
+      <p>You can use the company code <strong>NIKE0dbjwcjaj13j2492</strong> to register through this page.</p>
+        <p className="disclaimer">
+          Disclaimer: These credentials are provided for demonstration purposes only. 
+          Do not use personal or sensitive data. You can also register with the company code 
+          provided on the login page.
+        </p>
+        </div>
       <form className="form-container" onSubmit={handleSubmit}>
         <h2>Registration</h2>
-        <p>You can use company code <strong>NIKE0dbjwcjaj13j2492</strong> to register through this page.</p>
+       
         <input
           type="text"
           placeholder="Username"

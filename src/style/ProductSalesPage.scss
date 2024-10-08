@@ -32,7 +32,6 @@ $highlight-color: #ff5722; // Added bright highlight color for emphasis
   animation: fadeIn 0.5s ease-in-out;
   text-align: center;
 
-
   /* Slider Styles */
   .slider {
     margin: 20px auto;
@@ -117,6 +116,45 @@ $highlight-color: #ff5722; // Added bright highlight color for emphasis
       width: 15%;
     }
   }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    width: 95%;
+    padding: 10px;
 
+    .slider-item {
+      padding: 15px;
 
+      h3 {
+        font-size: 1.2rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
+    }
+
+    .product-sales-table {
+      font-size: 0.9rem;
+
+      th, td {
+        padding: 0.5rem;
+      }
+      
+      .product-size,
+      .product-name,
+      .add-count,
+      .sales-count,
+      .making-cost,
+      .profit {
+        width: auto; /* Change width to auto for smaller screens */
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .product-sales-table {
+      overflow-x: auto; /* Make the table scrollable */
+    }
+  }
 }

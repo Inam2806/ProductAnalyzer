@@ -16,7 +16,7 @@ const Login = ({ onLogin }) => {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/login`, {
         username,
         password,
-        companyCode
+        companyCode,
       });
       const token = response.data.token;
       if (token) {
@@ -46,7 +46,9 @@ const Login = ({ onLogin }) => {
           Use Test Credentials
         </button>
         <p className="disclaimer">
-          Disclaimer: These test credentials are provided for demonstration purposes only. Do not use personal or sensitive data.
+          Disclaimer: These test credentials are provided for demonstration purposes only. 
+          Do not use personal or sensitive data. You can also register with the company code 
+          provided on the registration page.
         </p>
       </div>
       

@@ -3,17 +3,19 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../style/ProductAddPage.scss';
 import NewProductModal from './AddnewProduct.jsx';
+import InfoModal from './InfoModal.jsx'; // Import InfoModal
 
 const ProductAddPage = () => {
     const [products, setProducts] = useState([]);
     const [newProductCode, setNewProductCode] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isInfoModalOpen, setIsInfoModalOpen] = useState(false); // State for InfoModal
     const [errorMessage, setErrorMessage] = useState('');
-    const [profile, setProfile] = useState(null); // State to hold profile data
+    const [profile, setProfile] = useState(null);
 
     useEffect(() => {
         fetchData();
-        fetchProfile(); // Fetch the profile data on component mount
+        fetchProfile();
     }, []);
 
     const fetchData = async () => {
@@ -50,6 +52,14 @@ const ProductAddPage = () => {
         setIsModalOpen(false);
     };
 
+    const openInfoModal = () => {
+        setIsInfoModalOpen(true); // Open InfoModal
+    };
+
+    const closeInfoModal = () => {
+        setIsInfoModalOpen(false); // Close InfoModal
+    };
+
     const addProduct = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -64,7 +74,19 @@ const ProductAddPage = () => {
                     productCode: code,
                 }, config);
 
-                setErrorMessage(response.data.message); // Directly use the message from the response
+                // Assuming the response contains the newly added product details
+                const newProduct = {
+                    productName: response.data.productName, // Make sure to adjust these fields according to your response structure
+                    imageUrl: response.data.imageUrl,
+                    status_0: response.data.status_0, // Adjust this as per your API response
+                    size: response.data.size // Adjust this as per your API response
+                };
+
+                setProducts((prevProducts) => [...prevProducts, newProduct]); // Update the products state directly
+                setErrorMessage(response.data.message); // Use the message from the response
+                setNewProductCode(''); // Clear the input field after adding a product
+            } else {
+                setErrorMessage('Product code cannot be empty.'); // Set error message if product code is empty
             }
         } catch (error) {
             if (error.response) {
@@ -79,7 +101,7 @@ const ProductAddPage = () => {
         <div className='productaddX'>
             <nav className='centered-nav-Owner'>
                 <ul>
-                    {profile && profile.mainOwner === 1 && ( // Check if the user is the main owner
+                    {profile && profile.mainOwner === 1 && (
                         <li>
                             <Link to={`/Owner-Home/Sale`} className="product-button">Product Sales</Link>
                         </li>
@@ -94,7 +116,11 @@ const ProductAddPage = () => {
                 <h2>Add Product</h2>
                 <button className="new-product-modal-button" onClick={openModal}>Add New Product</button>
                 {isModalOpen && <NewProductModal closeModal={closeModal} />}
-        
+                
+                {/* Info Modal Button */}
+                <button className="info-modal-button" onClick={openInfoModal}>Info</button>
+                {isInfoModalOpen && <InfoModal closeModal={closeInfoModal} />}
+
                 <div className="product-form">
                     <label><h2>Product Code:</h2></label>
                     <input
@@ -110,14 +136,16 @@ const ProductAddPage = () => {
         
             <div className="product-cards-container">
                 {products.map((product, index) => (
-                    <div className="product-card" key={`${product.productName}-${index}`}>
-                        <img src={product.imageUrl} alt={product.productName} className="product-image" />
-                        <div className="product-details">
-                            <div className="product-name">{product.productName}</div>
-                            <div className="product-count">Count: {product.status_0}</div>
-                            <div className="product-size">Size: {product.size}</div>
+                    product.productName && product.imageUrl ? ( // Check if product has valid data
+                        <div className="product-card" key={`${product.productName}-${index}`}>
+                            <img src={product.imageUrl} alt={product.productName} className="product-image" />
+                            <div className="product-details">
+                                <div className="product-name">{product.productName}</div>
+                                <div className="product-count">Count: {product.status_0}</div>
+                                <div className="product-size">Size: {product.size}</div>
+                            </div>
                         </div>
-                    </div>
+                    ) : null // Render nothing for invalid products
                 ))}
             </div>
         </div>

@@ -52,7 +52,7 @@ $input-border-radius: $border-radius;
 
   // Form Container
   .form-container {
-    background: #ffffff; // White background for the form
+    background: #ffffff;
     border: 1px solid #ccc;
     border-radius: $border-radius;
     padding: 20px;
@@ -129,7 +129,7 @@ $input-border-radius: $border-radius;
 
 // Test Credentials Section
 .test-credentials {
-  background: #f9f9f9; // Light gray background for the test credentials
+  background: #f9f9f9;
   border: 1px solid #ccc;
   border-radius: $border-radius;
   padding: 15px;
@@ -142,25 +142,96 @@ $input-border-radius: $border-radius;
     font-family: 'Times New Roman', Times, serif;
     font-size: 1.5rem;
     margin-bottom: 10px;
-    color: $primary-color; // Use primary color for headings
+    color: $primary-color;
   }
 
   p {
     font-size: 14px;
-    color: #333; // Darker text for better readability
+    color: #333;
     margin-bottom: 8px;
   }
 
   button {
-    @include button-styles; // Use the button styles mixin
-    width: auto; // Adjust width for this button
-    margin-top: 10px; // Space above the button
-    padding: 8px 16px; // Adjust padding for the button
+    @include button-styles;
+    width: auto;
+    margin-top: 10px;
+    padding: 8px 16px;
   }
 
   .disclaimer {
     font-size: 12px;
-    color: #666; // Lighter color for disclaimer text
+    color: #666;
     margin-top: 15px;
+  }
+}
+
+// Responsive Styles for Tablet and Mobile
+
+// Tablet Styles (768px max-width)
+@media screen and (max-width: 768px) {
+  .container_login_register {
+    h1 {
+      font-size: 2rem;  // Adjust the font size for smaller screens
+    }
+
+    .form-container {
+      max-width: 90%; // Increase the width for better readability
+    }
+
+    .login-register {
+      font-size: 1rem;  // Adjust button text size
+      padding: 10px 20px;  // Adjust padding for smaller screens
+    }
+  }
+
+  .test-credentials {
+    max-width: 90%; // Adjust the width of test credentials section for tablets
+    h3 {
+      font-size: 1.3rem;
+    }
+
+    button {
+      font-size: 1rem;
+      padding: 8px 12px;
+    }
+  }
+}
+
+// Mobile Styles (576px max-width)
+@media screen and (max-width: 576px) {
+  .container_login_register {
+    margin-top: 10px;
+    margin-bottom: 150px;
+
+    h1 {
+      font-size: 1.8rem;  // Further adjust font size for mobile
+    }
+
+    .form-container {
+      padding: 15px;
+      max-width: 95%; // Utilize more screen width on mobile
+    }
+
+    .login-register {
+      font-size: 0.9rem;  // Smaller button text for mobile
+      padding: 8px 16px;
+    }
+  }
+
+  .test-credentials {
+    padding: 10px;
+    max-width: 95%; // Use almost full width on mobile screens
+    h3 {
+      font-size: 1.2rem;
+    }
+
+    button {
+      font-size: 0.9rem;
+      padding: 6px 10px;
+    }
+
+    p {
+      font-size: 12px;
+    }
   }
 }
