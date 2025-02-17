@@ -119,8 +119,9 @@ $highlight-color: #ff5722; // Added bright highlight color for emphasis
   
   /* Responsive Styles */
   @media (max-width: 768px) {
-    width: 95%;
+    width: 100%;
     padding: 10px;
+   
 
     .slider-item {
       padding: 15px;
@@ -135,7 +136,7 @@ $highlight-color: #ff5722; // Added bright highlight color for emphasis
     }
 
     .product-sales-table {
-      font-size: 0.9rem;
+      font-size: 0.7rem;
 
       th, td {
         padding: 0.5rem;
@@ -158,3 +159,92 @@ $highlight-color: #ff5722; // Added bright highlight color for emphasis
     }
   }
 }
+
+@media (max-width: 768px) {
+  .slider {
+    max-width: 90%;
+    padding: 5px;
+    position: relative; /* Ensure positioning inside */
+
+    .slider-item {
+      padding: 10px;
+      border-radius: 8px;
+
+      h3 {
+        font-size: 1.1rem;
+      }
+
+      p {
+        font-size: 0.85rem;
+      }
+    }
+
+    .slick-prev,
+    .slick-next {
+      width: 30px;
+      height: 30px;
+      z-index: 10; /* Ensure visibility */
+    }
+
+    .slick-prev {
+      left: -10px !important; /* Move inside */
+    }
+
+    .slick-next {
+      right: -10px !important; /* Move inside */
+    }
+
+    .slick-dots {
+      bottom: -8px;
+    }
+
+    .slick-dots li button:before {
+      font-size: 9px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .slider {
+    max-width: 85%;
+    padding: 3px;
+    position: relative;
+
+    .slider-item {
+      padding: 8px;
+      border-radius: 6px;
+
+      h3 {
+        font-size: 1rem;
+      }
+
+      p {
+        font-size: 0.8rem;
+      }
+    }
+
+    .slick-prev,
+    .slick-next {
+      width: 25px;
+      height: 25px;
+      z-index: 10;
+    }
+
+    .slick-prev {
+      left: 0px !important; /* Keep inside */
+    }
+
+    .slick-next {
+      right: 0px !important; /* Keep inside */
+    }
+
+    .slick-dots {
+      bottom: -6px;
+    }
+
+    .slick-dots li button:before {
+      font-size: 7px;
+    }
+  }
+}
+

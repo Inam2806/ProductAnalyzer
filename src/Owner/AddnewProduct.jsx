@@ -12,32 +12,37 @@ const NewProductModal = ({ closeModal }) => {
 
   const handleAddProduct = async () => {
     try {
-      const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+      const token = localStorage.getItem('token');
       const config = {
         headers: { Authorization: `Bearer ${token}` }
       };
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/products/addnewproduct`, {
-        productName,
-        size,
-        makingCost,
-        profit,
-        imageUrl, // Include imageUrl in the request
-      }, config);
+  
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/api/products/addnewproduct`,
+        { productName, size, makingCost, profit, imageUrl },
+        config
+      );
+  
       if (response.data.success) {
-        closeModal(); // Close modal after successful product addition
-        setMessage('Product added successfully!'); // Set success message
-      } else {
-        // Handle error
-        console.error('Failed to add product:', response.data.message);
-        setMessage('Failed to add product. Please try again later.'); // Set error message
+        setMessage('Product added successfully!');
+        closeModal(); // Close modal only on success
       }
     } catch (error) {
-      // Handle error
-      console.error('Error adding product:', error);
-      setMessage('Error adding product. Please try again later.'); // Set error message
+      // Handle 400 Bad Request separately
+      if (error.response) {
+        if (error.response.status === 400 && error.response.data.message === "Product is already added.") {
+          setMessage("Product is already added."); // Show correct message
+        } else {
+          setMessage(error.response.data.message || "Error adding product. Please try again later.");
+        }
+      } else {
+        setMessage("Error adding product. Please try again later.");
+      }
+      console.error("Error adding product:", error);
     }
   };
-
+  
+  
   return (
     <div className="modal">
       <div className="modal-content">

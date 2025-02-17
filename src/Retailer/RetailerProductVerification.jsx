@@ -4,14 +4,14 @@ import '../style/RetailerProductVerification.scss'; // Import your SCSS file
 import { Link } from 'react-router-dom';
 
 const RetailerProductVerification = () => {
-  const [companyName, setCompanyName] = useState('');
+
   const [productCode, setProductCode] = useState('');
   const [verificationResult, setVerificationResult] = useState('');
 
   const handleVerification = async () => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/products/verifyproduct`, {
-        companyName,
+        
         productCode
       });
       setVerificationResult(response.data.message);
@@ -38,15 +38,7 @@ const RetailerProductVerification = () => {
       </nav>
       <h2 className="product-verification-title">Retailer Product Verification</h2>
       <div className="product-verification-form">
-        <label>
-          Company Name:
-          <input
-            className="product-verification-input"
-            type="text"
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-          />
-        </label>
+       
         <label>
           Product Code:
           <input

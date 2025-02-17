@@ -31,10 +31,26 @@ const Login = ({ onLogin }) => {
     }
   };
 
+  const fillTestCredentials = () => {
+    setUsername('inam28');
+    setPassword('Qazplm@280601');
+    setRetailerCode('INAMdwjddvbiwdn28e');
+  };
+
+
   return (
     <div className="container_login_register">
       <h1>Retailer Dashboard </h1>
-      
+      <div className="test-credentials">
+        <button onClick={fillTestCredentials} className="test-credentials-button">
+          Use Test Credentials
+        </button>
+        <p className="disclaimer">
+          Disclaimer: These test credentials are provided for demonstration purposes only. 
+          Do not use personal or sensitive data. You can also register with the company code 
+          provided on the registration page.
+        </p>
+      </div>
       <form className="form-container" onSubmit={handleSubmit}>
         <h2>Login</h2>
         <input

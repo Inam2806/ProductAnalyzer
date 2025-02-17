@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../style/BuyByRetailer.scss';
 import { Link } from 'react-router-dom';
+
 const BuyByRetailer = () => {
   const [products, setProducts] = useState([]);
-  const [companyName, setCompanyName] = useState('');
   const [productCode, setProductCode] = useState('');
   const [message, setMessage] = useState('');
+  
   useEffect(() => {
     fetchData();
   }, []);
+
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
@@ -35,7 +37,7 @@ const BuyByRetailer = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/auth/buybyretailer`,
-        { companyName, productCode },
+        { productCode },
         config
       );
       setMessage(response.data.message);
@@ -65,16 +67,6 @@ const BuyByRetailer = () => {
       <div className='Retailer-buy-sale'>
         <h2>Add Product</h2>
         <form className="form-buy-sale" onSubmit={handleSubmit}>
-          <div className="form-field">
-            <label htmlFor="companyName">Company Name:</label>
-            <input
-              id="companyName"
-              type="text"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-              placeholder="Enter company name"
-            />
-          </div>
           <div className="form-field">
             <label htmlFor="productCode">Product Code:</label>
             <input

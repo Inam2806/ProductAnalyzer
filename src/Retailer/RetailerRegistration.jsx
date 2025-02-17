@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../style/Login_Register.scss'; 
+import '../style/Login_Register.scss';
 
 const Registration = () => {
   const [username, setUsername] = useState('');
@@ -8,7 +9,13 @@ const Registration = () => {
   const [password, setPassword] = useState('');
   const [retailerCode, setRetailerCode] = useState('');
   const [error, setError] = useState('');
-
+    const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/Retailer-Home'); // Redirect logged-in users
+    }
+  }, [navigate]);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -21,7 +28,7 @@ const Registration = () => {
       });
 
       console.log('Registration successful:', response.data);
-      
+      navigate('/Retailer-Home'); 
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setError(error.response.data.message);

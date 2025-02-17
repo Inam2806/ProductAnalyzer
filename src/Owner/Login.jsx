@@ -20,7 +20,7 @@ const Login = ({ onLogin }) => {
       });
       const token = response.data.token;
       if (token) {
-        onLogin(token);
+        onLogin(token); 
         localStorage.setItem('token', token);
         console.log('Login successful:', response.data);
       } else {
@@ -87,7 +87,7 @@ const Login = ({ onLogin }) => {
         <button className="login-register" type="submit">Login</button>
         {error && <p className="error-message">{error}</p>}
       </form>
-      <p>Don't have an account? <a href="/register" className="login-register-link">Register</a></p>
+      <p>Don't have an account? <a href="/Register" className="login-register-link">Register</a></p>
     </div>
   );
 };

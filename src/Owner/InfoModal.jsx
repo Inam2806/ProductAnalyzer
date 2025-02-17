@@ -7,13 +7,14 @@ const InfoModal = ({ closeModal }) => {
             <div className="modal-content info-modal">
                 <h2>Product Code Format</h2>
                 <p>To add a product code, use the following format:</p>
-                <p><strong>3 digits for size, 4 digits for price, 10 random characters for code, followed by the product name.</strong></p>
-                <p>Example: <strong>0xl3000wwesdfcvb2short</strong></p>
+                <p><strong>Brand name, 3 digits for size, 4 digits for price, 10 random characters for code, followed by the product name.</strong></p>
+                <p>Example: <strong>Nike-0XL3000wwesdfcvb2Short</strong></p>
                 <ul>
-                    <li>Size: xl</li>
+                    <li>Brand: Nike</li>
+                    <li>Size: XL</li>
                     <li>Price: 3000</li>
                     <li>Code: wwesdfcvb2</li>
-                    <li>Product Name: short</li>
+                    <li>Product Name: Short</li>
                 </ul>
                 <span className="close" onClick={closeModal}>&times;</span>
             </div>

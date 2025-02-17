@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../style/Login_Register.scss';
 
@@ -8,6 +9,16 @@ const Registration = () => {
   const [password, setPassword] = useState('');
   const [companyCode, setCompanyCode] = useState('');
   const [error, setError] = useState('');
+  
+  const navigate = useNavigate();
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/Owner-Home'); // Redirect logged-in users
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +32,8 @@ const Registration = () => {
       });
 
       console.log('Registration successful:', response.data);
+      
+      navigate('/Owner-Home'); // Redirect to login after registration
 
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -33,19 +46,16 @@ const Registration = () => {
 
   return (
     <div className="container_login_register">
-      
       <h1>Owner Dashboard</h1>
       <div className="test-credentials">
-      <p>You can use the company code <strong>NIKE0dbjwcjaj13j2492</strong> to register through this page.</p>
+        <p>You can use the company code <strong>NIKE0dbjwcjaj13j2492</strong> to register through this page.</p>
         <p className="disclaimer">
           Disclaimer: These credentials are provided for demonstration purposes only. 
-          Do not use personal or sensitive data. You can also register with the company code 
-          provided on the login page.
+          Do not use personal or sensitive data.
         </p>
-        </div>
+      </div>
       <form className="form-container" onSubmit={handleSubmit}>
         <h2>Registration</h2>
-       
         <input
           type="text"
           placeholder="Username"

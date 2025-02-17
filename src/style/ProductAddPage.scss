@@ -69,6 +69,18 @@ $true-color: #389cff;
         transform: scale(0.95);
       }
     }
+    .info-modal-button {
+      margin-left: 10px; // Adjust as needed
+      padding: 8px 16px;
+      background-color: #007bff; // Example color
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      &:hover {
+          background-color: #0056b3; // Darker shade on hover
+      }
+    }
 
     .product-form {
       width: 100%;
@@ -174,7 +186,7 @@ $true-color: #389cff;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-
+  
     .product-card {
       display: flex;
       flex-direction: column;
@@ -186,12 +198,12 @@ $true-color: #389cff;
       border-radius: $border-radius;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-
+  
       &:hover {
         transform: scale(1.05);
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
       }
-
+  
       .product-image {
         width: 100%;
         height: 160px;
@@ -199,32 +211,109 @@ $true-color: #389cff;
         border-top-left-radius: $border-radius;
         border-top-right-radius: $border-radius;
       }
-
+  
       .product-details {
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 15px;
-
+  
         .product-name {
           font-size: 18px;
           font-weight: bold;
           margin-bottom: 10px;
         }
-
+  
         .product-count {
           font-size: 16px;
           margin-bottom: 5px;
         }
-
+  
         .product-size {
           font-size: 16px;
           color: #666;
         }
       }
     }
+  
+    /* Tablet: 2 cards per row */
+    @media (max-width: 1024px) {
+      .product-card {
+        width: 180px;
+        height: 300px;
+  
+        .product-image {
+          height: 140px;
+        }
+  
+        .product-details {
+          padding: 10px;
+  
+          .product-name {
+            font-size: 16px;
+          }
+  
+          .product-count,
+          .product-size {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  
+    /* Mobile: 2 cards per row, further reduced size */
+    @media (max-width: 768px) {
+      gap: 10px;
+  
+      .product-card {
+        width: 150px;
+        height: 260px;
+  
+        .product-image {
+          height: 120px;
+        }
+  
+        .product-details {
+          padding: 8px;
+  
+          .product-name {
+            font-size: 14px;
+          }
+  
+          .product-count,
+          .product-size {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  
+    /* Extra Small Mobile: Adjust for very small screens */
+    @media (max-width: 480px) {
+      .product-card {
+        width: 140px;
+        height: 240px;
+  
+        .product-image {
+          height: 110px;
+        }
+  
+        .product-details {
+          padding: 6px;
+  
+          .product-name {
+            font-size: 13px;
+          }
+  
+          .product-count,
+          .product-size {
+            font-size: 11px;
+          }
+        }
+      }
+    }
   }
-
+  
   .product-count {
     margin-top: 15px;
     font-size: 16px;
@@ -234,15 +323,61 @@ $true-color: #389cff;
  
 }
 
-.info-modal-button {
-  margin-left: 10px; // Adjust as needed
-  padding: 8px 16px;
-  background-color: #007bff; // Example color
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  &:hover {
-      background-color: #0056b3; // Darker shade on hover
+
+#qr-reader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 15px;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+
+  video {
+      width: 100%;
+      border-radius: 8px;
   }
+
+  .qr-scan-button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+          background: #218838;
+      }
+  }
+
+  .qr-status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+  }
+}
+
+.qr-scan-button {
+  background-color: #ff6600;
+  color: white;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.qr-scan-button:hover {
+  background-color: #cc5200;
 }

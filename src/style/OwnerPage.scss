@@ -100,6 +100,7 @@ $border-radius: 12px;  // Rounded corners for a modern look
 @media (max-width: 768px) {
   .containerX {
     padding: 20px;
+    margin: 20px auto;
 
     h1 {
       font-size: 2rem;  // Smaller font size for the title
@@ -129,7 +130,7 @@ $border-radius: 12px;  // Rounded corners for a modern look
 
 @media (max-width: 480px) {
   .containerX {
-    margin: 20px;  // Reduce margin for small screens
+    margin: 20px auto;
 
     h1 {
       font-size: 1.8rem;  // Further smaller font size for the title
