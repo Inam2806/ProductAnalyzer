@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const RetailerSale = () => {
   const [products, setProducts] = useState([]);
-  const [companyName, setCompanyName] = useState('');
+
   const [productCode, setProductCode] = useState('');
   const [message, setMessage] = useState('');
   const [sortDirection, setSortDirection] = useState('asc'); // 'asc' or 'desc'
@@ -44,7 +44,7 @@ const RetailerSale = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/auth/retailerSale`,
-        { companyName, productCode },
+        {  productCode },
         config
       );
       setMessage(response.data.message);
@@ -82,10 +82,7 @@ const RetailerSale = () => {
       <div className='Retailer-buy-sale'>
         <h2>Retailer Sales</h2>
         <form className='form-buy-sale' onSubmit={handleSubmit}>
-          <div className="form-field">
-            <label>Company Name:</label>
-            <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
-          </div>
+          
           <div className="form-field">
             <label>Product Code:</label>
             <input type="text" value={productCode} onChange={(e) => setProductCode(e.target.value)} />

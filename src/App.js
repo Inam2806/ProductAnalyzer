@@ -7,7 +7,7 @@ import Contact from './Contact';
 import NavBar from './Navbar';
 import OwnerRoutes from './OwnerRoutes';
 import RetailerRoutes from './RetailerRoutes'; // Import RetailerRoutes
-
+import Consumer from './consumer/Consumer.jsx';
 function App() {
   const [navbarCollapsed, setNavbarCollapsed] = useState(true); // State to manage navbar collapse
 
@@ -19,11 +19,13 @@ function App() {
     <Router>
       <NavBar onToggle={handleToggleNavbar} /> 
       <OwnerRoutes />
-      <RetailerRoutes /> {/* Add RetailerRoutes here */}
+      <RetailerRoutes /> 
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/consumer" element={<Consumer />} />
+
       </Routes>
       <Footer />
     </Router>
